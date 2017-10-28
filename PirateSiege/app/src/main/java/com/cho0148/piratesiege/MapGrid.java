@@ -25,6 +25,8 @@ public class MapGrid {
         this.tileAmount = new Vector2D();
         this.tileSize = new Vector2D();
         this.loadMap(Game.getContext());
+
+        this.addMoreWaterTiles();
     }
 
     public Vector2D getTileAmount(){
@@ -71,6 +73,13 @@ public class MapGrid {
                                 Bitmap wallSpriteBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), wallSpriteID);
                                 newTile.addWall(wallSpriteBitmap);
                             }
+
+                            String undergroundName = parser.getAttributeValue(null, "underground");
+                            if(undergroundName != null){
+                                int undergroundSpriteID = Game.getContext().getResources().getIdentifier(undergroundName, "drawable", "com.cho0148.piratesiege");
+                                Bitmap undergroundSpriteBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), undergroundSpriteID);
+                                newTile.setUndergroundSprite(undergroundSpriteBitmap);
+                            }
                         }
                         break;
                     }
@@ -84,6 +93,20 @@ public class MapGrid {
             e.printStackTrace();
         } catch(IOException e){
             e.printStackTrace();
+        }
+    }
+
+    private void addMoreWaterTiles(){
+        float moreColumnsAmount = 10;
+
+        for(int i = 0; i < this.tiles.size(); i++){
+            for(int j = 0; j < moreColumnsAmount; j++){
+                int groundTileID = Game.getContext().getResources().getIdentifier("tile_73", "drawable", "com.cho0148.piratesiege");
+                Bitmap waterBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), groundTileID);
+                MapTile tile = DrawableFactory.createMapTile(waterBitmap, new Vector2D(j+this.tileAmount.x, i));
+                tile.setOutOfBounds(true);
+                this.tiles.get(i).add(tile);
+            }
         }
     }
 }

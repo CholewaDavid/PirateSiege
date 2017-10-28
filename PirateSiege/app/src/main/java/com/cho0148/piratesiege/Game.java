@@ -44,6 +44,10 @@ public final class Game extends AppCompatActivity {
         return new Vector2D(renderView.getWidth(), renderView.getHeight());
     }
 
+    public static Vector2D getRenderViewScale(){
+        return renderView.getScale();
+    }
+
     public static Vector2D getTileAmount(){
         return mapGrid.getTileAmount();
     }

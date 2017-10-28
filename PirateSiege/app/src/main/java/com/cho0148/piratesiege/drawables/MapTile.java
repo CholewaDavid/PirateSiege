@@ -14,17 +14,21 @@ import com.cho0148.piratesiege.Vector2D;
 
 public class MapTile extends MyDrawable {
     private Bitmap sprite;
+    private Bitmap undergroundSprite;
     private Vector2D position;
     private Vector2D tilePosition;
     private Vector2D defaultSpriteSize;
     private Vector2D defaultPosition;
     private Paint paint;
     private Wall wall;
+    private boolean outOfBounds;
 
     MapTile(Bitmap sprite, Vector2D tilePosition){
         this.sprite = sprite;
         this.tilePosition = tilePosition;
         this.wall = null;
+        this.outOfBounds = false;
+        this.undergroundSprite = null;
 
         this.setPosition();
 
@@ -38,14 +42,26 @@ public class MapTile extends MyDrawable {
         this.wall = DrawableFactory.createWall(sprite, new Vector2D(this.defaultPosition));
     }
 
+    public void setOutOfBounds(boolean outOfBounds){
+        this.outOfBounds = outOfBounds;
+    }
+
+    public void setUndergroundSprite(Bitmap sprite){
+        this.undergroundSprite = sprite;
+    }
+
     @Override
     public void setScale(Vector2D scale){
+        if(this.undergroundSprite != null)
+            this.undergroundSprite = Bitmap.createScaledBitmap(this.undergroundSprite, (int)(this.defaultSpriteSize.x * scale.x), (int)(this.defaultSpriteSize.y * scale.y), true);
         this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(this.defaultSpriteSize.x * scale.x), (int)(this.defaultSpriteSize.y * scale.y), true);
         this.setPosition();
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
+        if(this.undergroundSprite != null)
+            canvas.drawBitmap(this.undergroundSprite, this.position.x, this.position.y, this.paint);
         canvas.drawBitmap(this.sprite, this.position.x, this.position.y, this.paint);
     }
 

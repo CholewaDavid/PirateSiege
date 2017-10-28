@@ -35,7 +35,7 @@ public class RenderView extends SurfaceView implements Runnable {
         this.surfaceHolder = view.getHolder();
 
         this.clearPaint = new Paint();
-        this.clearPaint.setColor(Color.rgb(170, 170, 220));
+        this.clearPaint.setColor(Color.BLUE);
         this.clearPaint.setStyle(Paint.Style.FILL);
 
         this.frame_period = 1000/this.fps;
@@ -129,5 +129,9 @@ public class RenderView extends SurfaceView implements Runnable {
 
     public void scaleDrawable(MyDrawable d){
         d.setScale(this.scale);
+    }
+
+    public Vector2D getScale(){
+        return this.scale;
     }
 }
