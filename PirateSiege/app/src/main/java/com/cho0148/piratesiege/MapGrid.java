@@ -4,7 +4,6 @@ package com.cho0148.piratesiege;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.cho0148.piratesiege.drawables.DrawableFactory;
 import com.cho0148.piratesiege.drawables.MapTile;
@@ -19,11 +18,23 @@ import java.util.List;
 public class MapGrid {
     private List<List<MapTile>> tiles;
     private Game game;
+    private Vector2D tileAmount;
+    private Vector2D tileSize;
 
     MapGrid(Game game) {
         this.game = game;
         this.tiles = new ArrayList<List<MapTile>>();
+        this.tileAmount = new Vector2D();
+        this.tileSize = new Vector2D();
         this.loadMap(this.game.getBaseContext());
+    }
+
+    public Vector2D getTileAmount(){
+        return this.tileAmount;
+    }
+
+    public Vector2D getTileSize(){
+        return this.tileSize;
     }
 
     private void loadMap(Context context) {
@@ -37,7 +48,14 @@ public class MapGrid {
                 String name = parser.getName();
                 switch(event){
                     case XmlPullParser.START_TAG: {
-                        if (name.equals("row")) {
+                        if(name.equals("map")){
+                            this.tileAmount.x = Integer.parseInt(parser.getAttributeValue(null, "columns"));
+                            this.tileAmount.y = Integer.parseInt(parser.getAttributeValue(null, "rows"));
+                            int tileSize = Integer.parseInt(parser.getAttributeValue(null, "tileSize"));
+                            this.tileSize.x = tileSize;
+                            this.tileSize.y = tileSize;
+                        }
+                        else if (name.equals("row")) {
                             current_row++;
                             current_column = -1;
                             this.tiles.add(new ArrayList<MapTile>());
@@ -46,7 +64,7 @@ public class MapGrid {
                             String ground_tile_name = parser.getAttributeValue(null, "ground");
                             int id = this.game.getBaseContext().getResources().getIdentifier(ground_tile_name, "drawable", "com.cho0148.piratesiege");
                             Bitmap ground_bitmap = BitmapFactory.decodeResource(this.game.getBaseContext().getResources(), id);
-                            this.tiles.get(current_row).add(DrawableFactory.createMapTile(ground_bitmap, new Vector2D(current_row, current_column)));
+                            this.tiles.get(current_row).add(DrawableFactory.createMapTile(ground_bitmap, new Vector2D(current_column, current_row)));
                         }
                         break;
                     }

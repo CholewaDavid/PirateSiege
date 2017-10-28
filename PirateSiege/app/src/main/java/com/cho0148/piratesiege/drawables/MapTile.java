@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,18 +12,28 @@ import android.support.annotation.Nullable;
 import com.cho0148.piratesiege.Vector2D;
 
 
-public class MapTile extends Drawable {
+public class MapTile extends MyDrawable {
     private Bitmap sprite;
     private Vector2D position;
-    private Vector2D tile_position;
+    private Vector2D tilePosition;
+    private Vector2D defaultSpriteSize;
     private Paint paint;
 
-    MapTile(Bitmap sprite, Vector2D tile_position){
+    MapTile(Bitmap sprite, Vector2D tilePosition){
         this.sprite = sprite;
-        this.tile_position = tile_position;
+        this.tilePosition = tilePosition;
 
-        this.position = new Vector2D(this.tile_position.x * this.sprite.getWidth(), this.tile_position.y * this.sprite.getHeight());
+        this.sprite = Bitmap.createScaledBitmap(this.sprite, this.sprite.getWidth(), this.sprite.getHeight(), true);
+        this.defaultSpriteSize = new Vector2D(this.sprite.getWidth(), this.sprite.getHeight());
+
+        this.setPosition();
         this.paint = new Paint();
+    }
+
+    @Override
+    public void setScale(Vector2D scale){
+        this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(this.defaultSpriteSize.x * scale.x), (int)(this.defaultSpriteSize.y * scale.y), true);
+        this.setPosition();
     }
 
     @Override
@@ -45,5 +54,9 @@ public class MapTile extends Drawable {
     @Override
     public int getOpacity() {
         return PixelFormat.OPAQUE;
+    }
+
+    private void setPosition(){
+        this.position = new Vector2D(this.tilePosition.x * this.sprite.getWidth(), this.tilePosition.y * this.sprite.getHeight());
     }
 }

@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cho0148.piratesiege.drawables.MyDrawable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +23,11 @@ public class RenderView extends SurfaceView implements Runnable {
     private int frame_period;
     private SurfaceHolder surfaceHolder;
     private Paint clearPaint;
-    private List<Drawable> drawables;
+    private List<MyDrawable> drawables;
     private Thread renderThread = null;
     private volatile boolean running = false;
+    private boolean firstScalingDone = false;
+    private Vector2D scale;
 
     public RenderView(int fps, Context context, SurfaceView view){
         super(context);
@@ -35,7 +39,8 @@ public class RenderView extends SurfaceView implements Runnable {
         this.clearPaint.setStyle(Paint.Style.FILL);
 
         this.frame_period = 1000/this.fps;
-        this.drawables = new ArrayList<>();
+        this.scale = new Vector2D();
+        this.drawables = new ArrayList<MyDrawable>();
     }
 
     public void run(){
@@ -83,15 +88,43 @@ public class RenderView extends SurfaceView implements Runnable {
 
     public void draw(){
         Canvas canvas = this.surfaceHolder.lockCanvas();
+        if(!this.firstScalingDone){
+            Vector2D tileAmount = Game.getTileAmount();
+            Vector2D canvasSize = new Vector2D(canvas.getWidth(), canvas.getHeight());
+            Vector2D tileSize = Game.getTileSize();
+            float newTileSizeX = canvasSize.x / tileAmount.x;
+            float newTileSizeY = canvasSize.y / tileAmount.y;
+            float scale = 0;
+
+            if(newTileSizeX < newTileSizeY) {
+                scale = newTileSizeX / tileSize.x;
+            }
+            else {
+                scale = newTileSizeY / tileSize.y;
+            }
+
+            this.scale.x = scale;
+            this.scale.y = scale;
+
+            for(MyDrawable d : this.drawables){
+                this.scaleDrawable(d);
+            }
+
+            this.firstScalingDone = true;
+        }
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.clearPaint);
-        for (Drawable d : drawables) {
+        for (MyDrawable d : drawables) {
             d.draw(canvas);
         }
         this.surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
-    public void addDrawable(Drawable d){
+    public void addDrawable(MyDrawable d){
         this.drawables.add(d);
+    }
+
+    public void scaleDrawable(MyDrawable d){
+        d.setScale(this.scale);
     }
 }
