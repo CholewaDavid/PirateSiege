@@ -61,10 +61,18 @@ public class MapGrid {
                             this.tiles.add(new ArrayList<MapTile>());
                         } else if (name.equals("tile")) {
                             current_column++;
-                            String ground_tile_name = parser.getAttributeValue(null, "ground");
-                            int id = this.game.getBaseContext().getResources().getIdentifier(ground_tile_name, "drawable", "com.cho0148.piratesiege");
-                            Bitmap ground_bitmap = BitmapFactory.decodeResource(this.game.getBaseContext().getResources(), id);
-                            this.tiles.get(current_row).add(DrawableFactory.createMapTile(ground_bitmap, new Vector2D(current_column, current_row)));
+                            String groundTileName = parser.getAttributeValue(null, "ground");
+                            int groundTileID = this.game.getBaseContext().getResources().getIdentifier(groundTileName, "drawable", "com.cho0148.piratesiege");
+                            Bitmap groundBitmap = BitmapFactory.decodeResource(this.game.getBaseContext().getResources(), groundTileID);
+                            MapTile newTile = DrawableFactory.createMapTile(groundBitmap, new Vector2D(current_column, current_row));
+                            this.tiles.get(current_row).add(newTile);
+
+                            String wallName = parser.getAttributeValue(null, "wall");
+                            if(wallName != null){
+                                int wallSpriteID = this.game.getBaseContext().getResources().getIdentifier(wallName, "drawable", "com.cho0148.piratesiege");
+                                Bitmap wallSpriteBitmap = BitmapFactory.decodeResource(this.game.getBaseContext().getResources(), wallSpriteID);
+                                newTile.addWall(wallSpriteBitmap);
+                            }
                         }
                         break;
                     }

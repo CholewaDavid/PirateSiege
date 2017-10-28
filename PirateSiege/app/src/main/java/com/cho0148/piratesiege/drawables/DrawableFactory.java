@@ -21,4 +21,10 @@ public final class DrawableFactory {
         renderView.addDrawable(mapTile);
         return mapTile;
     }
+
+    public static Wall createWall(Bitmap sprite, Vector2D position){
+        Wall wall = new Wall(sprite, position);
+        renderView.addDrawable(wall);
+        return wall;
+    }
 }

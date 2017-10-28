@@ -122,6 +122,9 @@ public class RenderView extends SurfaceView implements Runnable {
 
     public void addDrawable(MyDrawable d){
         this.drawables.add(d);
+        if(firstScalingDone){
+            d.setScale(this.scale);
+        }
     }
 
     public void scaleDrawable(MyDrawable d){

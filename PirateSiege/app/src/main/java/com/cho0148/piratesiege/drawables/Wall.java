@@ -12,36 +12,27 @@ import android.support.annotation.Nullable;
 import com.cho0148.piratesiege.Vector2D;
 
 
-public class MapTile extends MyDrawable {
+public class Wall extends MyDrawable {
     private Bitmap sprite;
     private Vector2D position;
-    private Vector2D tilePosition;
     private Vector2D defaultSpriteSize;
     private Vector2D defaultPosition;
     private Paint paint;
-    private Wall wall;
 
-    MapTile(Bitmap sprite, Vector2D tilePosition){
+    public Wall(Bitmap sprite, Vector2D position){
         this.sprite = sprite;
-        this.tilePosition = tilePosition;
-        this.wall = null;
+        this.position = position;
+        this.defaultPosition = this.position;
 
-        this.setPosition();
-
-        this.defaultPosition = new Vector2D(this.position);
         this.defaultSpriteSize = new Vector2D(this.sprite.getWidth(), this.sprite.getHeight());
-
         this.paint = new Paint();
     }
 
-    public void addWall(Bitmap sprite){
-        this.wall = DrawableFactory.createWall(sprite, new Vector2D(this.defaultPosition));
-    }
-
     @Override
-    public void setScale(Vector2D scale){
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(this.defaultSpriteSize.x * scale.x), (int)(this.defaultSpriteSize.y * scale.y), true);
-        this.setPosition();
+    public void setScale(Vector2D scale) {
+        this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(Math.ceil(this.defaultSpriteSize.x * scale.x)), (int)(Math.ceil(this.defaultSpriteSize.y * scale.y)), true);
+        this.position.x = (float)(Math.floor(this.defaultPosition.x * scale.x));
+        this.position.y = (float)(Math.floor(this.defaultPosition.y * scale.y));
     }
 
     @Override
@@ -62,9 +53,5 @@ public class MapTile extends MyDrawable {
     @Override
     public int getOpacity() {
         return PixelFormat.OPAQUE;
-    }
-
-    private void setPosition(){
-        this.position = new Vector2D(this.tilePosition.x * this.sprite.getWidth(), this.tilePosition.y * this.sprite.getHeight());
     }
 }
