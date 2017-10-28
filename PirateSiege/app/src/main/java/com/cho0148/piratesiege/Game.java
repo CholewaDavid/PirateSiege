@@ -1,6 +1,7 @@
 package com.cho0148.piratesiege;
 
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,13 +16,16 @@ public final class Game extends AppCompatActivity {
     private static RenderView renderView;
     private static MapGrid mapGrid;
     private static City city;
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        renderView = new RenderView(FPS, this.getBaseContext(), (SurfaceView)findViewById(R.id.surfaceView));
+        context = this.getBaseContext();
+
+        renderView = new RenderView(FPS, context, (SurfaceView)findViewById(R.id.surfaceView));
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -46,5 +50,9 @@ public final class Game extends AppCompatActivity {
 
     public static Vector2D getTileSize(){
         return mapGrid.getTileSize();
+    }
+
+    public static Context getContext(){
+        return context;
     }
 }

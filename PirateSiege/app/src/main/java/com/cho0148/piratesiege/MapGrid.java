@@ -17,7 +17,6 @@ import java.util.List;
 
 public class MapGrid {
     private List<List<MapTile>> tiles;
-    private Game game;
     private Vector2D tileAmount;
     private Vector2D tileSize;
 
@@ -25,7 +24,7 @@ public class MapGrid {
         this.tiles = new ArrayList<List<MapTile>>();
         this.tileAmount = new Vector2D();
         this.tileSize = new Vector2D();
-        this.loadMap(this.game.getBaseContext());
+        this.loadMap(Game.getContext());
     }
 
     public Vector2D getTileAmount(){
@@ -61,15 +60,15 @@ public class MapGrid {
                         } else if (name.equals("tile")) {
                             current_column++;
                             String groundTileName = parser.getAttributeValue(null, "ground");
-                            int groundTileID = this.game.getBaseContext().getResources().getIdentifier(groundTileName, "drawable", "com.cho0148.piratesiege");
-                            Bitmap groundBitmap = BitmapFactory.decodeResource(this.game.getBaseContext().getResources(), groundTileID);
+                            int groundTileID = Game.getContext().getResources().getIdentifier(groundTileName, "drawable", "com.cho0148.piratesiege");
+                            Bitmap groundBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), groundTileID);
                             MapTile newTile = DrawableFactory.createMapTile(groundBitmap, new Vector2D(current_column, current_row));
                             this.tiles.get(current_row).add(newTile);
 
                             String wallName = parser.getAttributeValue(null, "wall");
                             if(wallName != null){
-                                int wallSpriteID = this.game.getBaseContext().getResources().getIdentifier(wallName, "drawable", "com.cho0148.piratesiege");
-                                Bitmap wallSpriteBitmap = BitmapFactory.decodeResource(this.game.getBaseContext().getResources(), wallSpriteID);
+                                int wallSpriteID = Game.getContext().getResources().getIdentifier(wallName, "drawable", "com.cho0148.piratesiege");
+                                Bitmap wallSpriteBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), wallSpriteID);
                                 newTile.addWall(wallSpriteBitmap);
                             }
                         }
