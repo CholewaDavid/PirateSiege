@@ -1,12 +1,9 @@
 package com.cho0148.piratesiege;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 
@@ -17,6 +14,7 @@ public final class Game extends AppCompatActivity {
 
     private static RenderView renderView;
     private static MapGrid mapGrid;
+    private static City city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +28,11 @@ public final class Game extends AppCompatActivity {
         layoutParams.width = displayMetrics.widthPixels;
         layoutParams.height = displayMetrics.heightPixels;
         renderView.setLayoutParams(layoutParams);
-        /*
-        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        go.setLayoutParams(params1);
-         */
 
         DrawableFactory.init(renderView);
 
-        mapGrid = new MapGrid(this);
+        mapGrid = new MapGrid();
+        city = new City();
         renderView.resume();
     }
 

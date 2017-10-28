@@ -21,8 +21,7 @@ public class MapGrid {
     private Vector2D tileAmount;
     private Vector2D tileSize;
 
-    MapGrid(Game game) {
-        this.game = game;
+    MapGrid() {
         this.tiles = new ArrayList<List<MapTile>>();
         this.tileAmount = new Vector2D();
         this.tileSize = new Vector2D();
