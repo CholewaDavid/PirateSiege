@@ -36,6 +36,11 @@ public class Wall extends MyDrawable {
     }
 
     @Override
+    public void update() {
+
+    }
+
+    @Override
     public void draw(@NonNull Canvas canvas) {
         canvas.drawBitmap(this.sprite, this.position.x, this.position.y, this.paint);
     }

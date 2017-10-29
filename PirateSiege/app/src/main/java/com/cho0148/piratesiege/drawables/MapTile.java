@@ -8,6 +8,7 @@ import android.graphics.PixelFormat;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.cho0148.piratesiege.Vector2D;
 
@@ -22,6 +23,7 @@ public class MapTile extends MyDrawable {
     private Paint paint;
     private Wall wall;
     private boolean outOfBounds;
+    private float waterOffsetStep;
 
     MapTile(Bitmap sprite, Vector2D tilePosition){
         this.sprite = sprite;
@@ -59,10 +61,15 @@ public class MapTile extends MyDrawable {
     }
 
     @Override
+    public void update() {
+        this.waterOffsetStep+=0.1;
+    }
+
+    @Override
     public void draw(@NonNull Canvas canvas) {
         if(this.undergroundSprite != null)
             canvas.drawBitmap(this.undergroundSprite, this.position.x, this.position.y, this.paint);
-        canvas.drawBitmap(this.sprite, this.position.x, this.position.y, this.paint);
+        canvas.drawBitmap(this.sprite, this.position.x + (int)(Math.sin(this.waterOffsetStep)*10), this.position.y, this.paint);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class RenderView extends SurfaceView implements Runnable {
             begin_time = System.currentTimeMillis();
             this.draw();
             end_time = System.currentTimeMillis();
-            sleep_time = end_time - begin_time - frame_period;
+            sleep_time = frame_period - (begin_time - end_time);
             if(sleep_time > 0){
                 try {
                     sleep(sleep_time);
@@ -115,6 +115,7 @@ public class RenderView extends SurfaceView implements Runnable {
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.clearPaint);
         for (MyDrawable d : drawables) {
+            d.update();
             d.draw(canvas);
         }
         this.surfaceHolder.unlockCanvasAndPost(canvas);
