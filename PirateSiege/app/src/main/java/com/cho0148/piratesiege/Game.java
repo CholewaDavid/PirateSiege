@@ -2,6 +2,7 @@ package com.cho0148.piratesiege;
 
 
 import android.content.Context;
+import android.content.Entity;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,12 +12,14 @@ import android.view.ViewGroup;
 
 import com.cho0148.piratesiege.drawables.City;
 import com.cho0148.piratesiege.drawables.DrawableFactory;
+import com.cho0148.piratesiege.drawables.EntityUpdater;
 import com.cho0148.piratesiege.drawables.MapGrid;
 
 public final class Game extends AppCompatActivity {
     public final int FPS = 60;
 
     private static RenderView renderView;
+    private static EntityUpdater entityUpdater;
     private static MapGrid mapGrid;
     private static City city;
     private static Context context;
@@ -36,11 +39,14 @@ public final class Game extends AppCompatActivity {
         layoutParams.height = displayMetrics.heightPixels;
         renderView.setLayoutParams(layoutParams);
 
-        DrawableFactory.init(renderView);
+        entityUpdater = new EntityUpdater(FPS);
+
+        DrawableFactory.init(renderView, entityUpdater);
 
         mapGrid = DrawableFactory.createMapGrid();
         city = DrawableFactory.createCity();
         renderView.resume();
+        entityUpdater.resume();
     }
 
     public static Vector2D getRenderViewSize(){

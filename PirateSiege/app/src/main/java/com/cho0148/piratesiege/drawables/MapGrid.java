@@ -40,9 +40,11 @@ public class MapGrid extends MyDrawable{
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        for(List<MapTile> row : this.tiles){
-            for(MapTile tile : row){
-                tile.draw(canvas);
+        synchronized (MapGrid.class) {
+            for (List<MapTile> row : this.tiles) {
+                for (MapTile tile : row) {
+                    tile.draw(canvas);
+                }
             }
         }
     }
@@ -147,9 +149,11 @@ public class MapGrid extends MyDrawable{
 
     @Override
     public void update() {
-        for(List<MapTile> row : this.tiles){
-            for(MapTile tile : row){
-                tile.update();
+        synchronized (MapGrid.class) {
+            for (List<MapTile> row : this.tiles) {
+                for (MapTile tile : row) {
+                    tile.update();
+                }
             }
         }
     }

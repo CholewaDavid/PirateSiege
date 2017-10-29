@@ -115,7 +115,6 @@ public class RenderView extends SurfaceView implements Runnable {
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.clearPaint);
         for (MyDrawable d : drawables) {
-            d.update();
             d.draw(canvas);
         }
         this.surfaceHolder.unlockCanvasAndPost(canvas);

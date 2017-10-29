@@ -9,7 +9,6 @@ import android.graphics.PixelFormat;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.R;
@@ -37,8 +36,10 @@ public class City extends MyDrawable{
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        for(Wall wall : this.walls)
-            wall.draw(canvas);
+        synchronized (City.class) {
+            for (Wall wall : this.walls)
+                wall.draw(canvas);
+        }
     }
 
     @Override
@@ -65,8 +66,10 @@ public class City extends MyDrawable{
 
     @Override
     public void update() {
-        for(Wall wall : this.walls){
-            wall.update();
+        synchronized (City.class) {
+            for (Wall wall : this.walls) {
+                wall.update();
+            }
         }
     }
 
