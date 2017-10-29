@@ -1,0 +1,41 @@
+<city>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_61"/>
+    </row>
+    <row/>
+    <row/>
+    <row/>
+    <row>
+        <wall column="4" sprite="tile_45"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="4" sprite="tile_15"/>
+    </row>
+</city>

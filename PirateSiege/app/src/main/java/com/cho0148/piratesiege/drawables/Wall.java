@@ -8,6 +8,7 @@ import android.graphics.PixelFormat;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.cho0148.piratesiege.Vector2D;
 
@@ -33,6 +34,11 @@ public class Wall extends MyDrawable {
         this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(Math.ceil(this.defaultSpriteSize.x * scale.x)), (int)(Math.ceil(this.defaultSpriteSize.y * scale.y)), true);
         this.position.x = (float)(Math.floor(this.defaultPosition.x * scale.x));
         this.position.y = (float)(Math.floor(this.defaultPosition.y * scale.y));
+    }
+
+    @Override
+    public void update() {
+
     }
 
     @Override
