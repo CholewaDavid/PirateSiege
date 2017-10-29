@@ -22,6 +22,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MapGrid extends MyDrawable{
@@ -36,11 +37,18 @@ public class MapGrid extends MyDrawable{
         this.loadMap(Game.getContext());
 
         this.addMoreWaterTiles();
+        for(List<MapTile> row : this.tiles)
+            Collections.reverse(row);
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
         synchronized (MapGrid.class) {
+            for (List<MapTile> row : this.tiles) {
+                for (MapTile tile : row) {
+                    tile.drawUnderground(canvas);
+                }
+            }
             for (List<MapTile> row : this.tiles) {
                 for (MapTile tile : row) {
                     tile.draw(canvas);
@@ -96,10 +104,16 @@ public class MapGrid extends MyDrawable{
                             this.tiles.add(new ArrayList<MapTile>());
                         } else if (name.equals("tile")) {
                             current_column++;
+                            String typeName = parser.getAttributeValue(null, "ground_type");
+                            MapTile.MapTileType type = MapTile.MapTileType.LAND;
+                            if(typeName.equals("land"))
+                                type = MapTile.MapTileType.LAND;
+                            else if(typeName.equals("water"))
+                                type = MapTile.MapTileType.WATER;
                             String groundTileName = parser.getAttributeValue(null, "ground");
                             int groundTileID = Game.getContext().getResources().getIdentifier(groundTileName, "drawable", "com.cho0148.piratesiege");
                             Bitmap groundBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), groundTileID);
-                            MapTile newTile = new MapTile(groundBitmap, new Vector2D(current_column, current_row));
+                            MapTile newTile = new MapTile(groundBitmap, new Vector2D(current_column, current_row), type);
                             this.tiles.get(current_row).add(newTile);
 
                             String undergroundName = parser.getAttributeValue(null, "underground");
@@ -131,7 +145,7 @@ public class MapGrid extends MyDrawable{
             for(int j = 0; j < moreColumnsAmount; j++){
                 int groundTileID = Game.getContext().getResources().getIdentifier("tile_73", "drawable", "com.cho0148.piratesiege");
                 Bitmap waterBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), groundTileID);
-                MapTile tile = new MapTile(waterBitmap, new Vector2D(j+this.tileAmount.x, i));
+                MapTile tile = new MapTile(waterBitmap, new Vector2D(j+this.tileAmount.x, i), MapTile.MapTileType.WATER);
                 tile.setOutOfBounds(true);
                 this.tiles.get(i).add(tile);
             }

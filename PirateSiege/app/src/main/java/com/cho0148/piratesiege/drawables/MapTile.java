@@ -14,6 +14,8 @@ import com.cho0148.piratesiege.Vector2D;
 
 
 public class MapTile extends MyDrawable {
+    public static enum MapTileType{LAND, WATER}
+
     private Bitmap sprite;
     private Bitmap undergroundSprite;
     private Vector2D position;
@@ -23,10 +25,12 @@ public class MapTile extends MyDrawable {
     private Paint paint;
     private boolean outOfBounds;
     private float waterOffsetStep;
+    private MapTileType type;
 
-    MapTile(Bitmap sprite, Vector2D tilePosition){
+    MapTile(Bitmap sprite, Vector2D tilePosition, MapTileType type){
         this.sprite = sprite;
         this.tilePosition = tilePosition;
+        this.type = type;
         this.outOfBounds = false;
         this.undergroundSprite = null;
 
@@ -56,14 +60,20 @@ public class MapTile extends MyDrawable {
 
     @Override
     public void update() {
-        this.waterOffsetStep+=0.1;
+        this.waterOffsetStep+=0.03;
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
+        if(this.type == MapTileType.WATER)
+            canvas.drawBitmap(this.sprite, this.position.x + (int)(Math.sin(this.waterOffsetStep)*10), this.position.y, this.paint);
+        else
+            canvas.drawBitmap(this.sprite, this.position.x, this.position.y, this.paint);
+    }
+
+    public void drawUnderground(Canvas canvas){
         if(this.undergroundSprite != null)
-            canvas.drawBitmap(this.undergroundSprite, this.position.x, this.position.y, this.paint);
-        canvas.drawBitmap(this.sprite, this.position.x + (int)(Math.sin(this.waterOffsetStep)*10), this.position.y, this.paint);
+            canvas.drawBitmap(this.undergroundSprite, this.position.x + (int)(Math.sin(this.waterOffsetStep)*10), this.position.y, this.paint);
     }
 
     @Override

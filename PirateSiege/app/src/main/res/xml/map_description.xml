@@ -112,7 +112,7 @@
     </row>
     <row>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_68" ground_type="land"/>
+        <tile ground="tile_04" ground_type="land" underground="tile_73"/>
         <tile ground="tile_34" ground_type="land" underground="tile_73"/>
         <tile ground="tile_34" ground_type="land" underground="tile_73"/>
         <tile ground="tile_35" ground_type="land" underground="tile_73"/>
@@ -135,7 +135,7 @@
     <row>
 
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_68" ground_type="land"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -158,7 +158,7 @@
     <row>
 
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_68" ground_type="land"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -180,7 +180,7 @@
     </row>
     <row>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_68" ground_type="land"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -202,7 +202,7 @@
     </row>
     <row>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_68" ground_type="land"/>
+        <tile ground="tile_20" ground_type="land" underground="tile_73"/>
         <tile ground="tile_02" ground_type="land" underground="tile_73"/>
         <tile ground="tile_02" ground_type="land" underground="tile_73"/>
         <tile ground="tile_03" ground_type="land" underground="tile_73"/>
