@@ -1,10 +1,19 @@
-package com.cho0148.piratesiege;
+package com.cho0148.piratesiege.drawables;
 
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.cho0148.piratesiege.Game;
+import com.cho0148.piratesiege.R;
+import com.cho0148.piratesiege.Vector2D;
 import com.cho0148.piratesiege.drawables.DrawableFactory;
 import com.cho0148.piratesiege.drawables.MapTile;
 
@@ -15,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapGrid {
+public class MapGrid extends MyDrawable{
     private List<List<MapTile>> tiles;
     private Vector2D tileAmount;
     private Vector2D tileSize;
@@ -27,6 +36,30 @@ public class MapGrid {
         this.loadMap(Game.getContext());
 
         this.addMoreWaterTiles();
+    }
+
+    @Override
+    public void draw(@NonNull Canvas canvas) {
+        for(List<MapTile> row : this.tiles){
+            for(MapTile tile : row){
+                tile.draw(canvas);
+            }
+        }
+    }
+
+    @Override
+    public void setAlpha(@IntRange(from = 0, to = 255) int alpha) {
+
+    }
+
+    @Override
+    public void setColorFilter(@Nullable ColorFilter colorFilter) {
+
+    }
+
+    @Override
+    public int getOpacity() {
+        return PixelFormat.OPAQUE;
     }
 
     public Vector2D getTileAmount(){
@@ -64,15 +97,8 @@ public class MapGrid {
                             String groundTileName = parser.getAttributeValue(null, "ground");
                             int groundTileID = Game.getContext().getResources().getIdentifier(groundTileName, "drawable", "com.cho0148.piratesiege");
                             Bitmap groundBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), groundTileID);
-                            MapTile newTile = DrawableFactory.createMapTile(groundBitmap, new Vector2D(current_column, current_row));
+                            MapTile newTile = new MapTile(groundBitmap, new Vector2D(current_column, current_row));
                             this.tiles.get(current_row).add(newTile);
-
-                            String wallName = parser.getAttributeValue(null, "wall");
-                            if(wallName != null){
-                                int wallSpriteID = Game.getContext().getResources().getIdentifier(wallName, "drawable", "com.cho0148.piratesiege");
-                                Bitmap wallSpriteBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), wallSpriteID);
-                                newTile.addWall(wallSpriteBitmap);
-                            }
 
                             String undergroundName = parser.getAttributeValue(null, "underground");
                             if(undergroundName != null){
@@ -103,9 +129,27 @@ public class MapGrid {
             for(int j = 0; j < moreColumnsAmount; j++){
                 int groundTileID = Game.getContext().getResources().getIdentifier("tile_73", "drawable", "com.cho0148.piratesiege");
                 Bitmap waterBitmap = BitmapFactory.decodeResource(Game.getContext().getResources(), groundTileID);
-                MapTile tile = DrawableFactory.createMapTile(waterBitmap, new Vector2D(j+this.tileAmount.x, i));
+                MapTile tile = new MapTile(waterBitmap, new Vector2D(j+this.tileAmount.x, i));
                 tile.setOutOfBounds(true);
                 this.tiles.get(i).add(tile);
+            }
+        }
+    }
+
+    @Override
+    public void setScale(Vector2D scale) {
+        for(List<MapTile> row : this.tiles){
+            for(MapTile tile : row){
+                tile.setScale(scale);
+            }
+        }
+    }
+
+    @Override
+    public void update() {
+        for(List<MapTile> row : this.tiles){
+            for(MapTile tile : row){
+                tile.update();
             }
         }
     }

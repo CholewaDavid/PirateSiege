@@ -21,14 +21,12 @@ public class MapTile extends MyDrawable {
     private Vector2D defaultSpriteSize;
     private Vector2D defaultPosition;
     private Paint paint;
-    private Wall wall;
     private boolean outOfBounds;
     private float waterOffsetStep;
 
     MapTile(Bitmap sprite, Vector2D tilePosition){
         this.sprite = sprite;
         this.tilePosition = tilePosition;
-        this.wall = null;
         this.outOfBounds = false;
         this.undergroundSprite = null;
 
@@ -38,10 +36,6 @@ public class MapTile extends MyDrawable {
         this.defaultSpriteSize = new Vector2D(this.sprite.getWidth(), this.sprite.getHeight());
 
         this.paint = new Paint();
-    }
-
-    public void addWall(Bitmap sprite){
-        this.wall = DrawableFactory.createWall(sprite, new Vector2D(this.defaultPosition));
     }
 
     public void setOutOfBounds(boolean outOfBounds){

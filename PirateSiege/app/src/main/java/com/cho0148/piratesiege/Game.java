@@ -2,13 +2,16 @@ package com.cho0148.piratesiege;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 
+import com.cho0148.piratesiege.drawables.City;
 import com.cho0148.piratesiege.drawables.DrawableFactory;
+import com.cho0148.piratesiege.drawables.MapGrid;
 
 public final class Game extends AppCompatActivity {
     public final int FPS = 60;
@@ -35,8 +38,8 @@ public final class Game extends AppCompatActivity {
 
         DrawableFactory.init(renderView);
 
-        mapGrid = new MapGrid();
-        city = new City();
+        mapGrid = DrawableFactory.createMapGrid();
+        city = DrawableFactory.createCity();
         renderView.resume();
     }
 

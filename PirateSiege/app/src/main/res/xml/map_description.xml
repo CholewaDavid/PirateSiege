@@ -5,7 +5,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -27,7 +27,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -49,7 +49,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -71,7 +71,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -93,7 +93,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -115,7 +115,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_34" ground_type="land" underground="tile_73"/>
         <tile ground="tile_34" ground_type="land" underground="tile_73"/>
-        <tile ground="tile_35" ground_type="land" underground="tile_73" wall="tile_61"/>
+        <tile ground="tile_35" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -205,7 +205,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_02" ground_type="land" underground="tile_73"/>
         <tile ground="tile_02" ground_type="land" underground="tile_73"/>
-        <tile ground="tile_03" ground_type="land" underground="tile_73" wall="tile_45"/>
+        <tile ground="tile_03" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -227,7 +227,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -249,7 +249,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -271,7 +271,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -293,7 +293,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
@@ -315,7 +315,7 @@
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
         <tile ground="tile_68" ground_type="land"/>
-        <tile ground="tile_19" ground_type="land" underground="tile_73" wall="tile_15"/>
+        <tile ground="tile_19" ground_type="land" underground="tile_73"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>
         <tile ground="tile_73" ground_type="water"/>

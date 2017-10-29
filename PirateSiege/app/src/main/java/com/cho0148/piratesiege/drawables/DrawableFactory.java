@@ -1,9 +1,6 @@
 package com.cho0148.piratesiege.drawables;
 
-import android.graphics.Bitmap;
-
 import com.cho0148.piratesiege.RenderView;
-import com.cho0148.piratesiege.Vector2D;
 
 public final class DrawableFactory {
     private static RenderView renderView;
@@ -16,15 +13,15 @@ public final class DrawableFactory {
         renderView = rv;
     }
 
-    public static MapTile createMapTile(Bitmap sprite, Vector2D position){
-        MapTile mapTile = new MapTile(sprite, position);
-        renderView.addDrawable(mapTile);
-        return mapTile;
+    public static MapGrid createMapGrid(){
+        MapGrid newMapGrid = new MapGrid();
+        renderView.addDrawable(newMapGrid);
+        return newMapGrid;
     }
 
-    public static Wall createWall(Bitmap sprite, Vector2D position){
-        Wall wall = new Wall(sprite, position);
-        renderView.addDrawable(wall);
-        return wall;
+    public static City createCity(){
+        City newCity = new City();
+        renderView.addDrawable(newCity);
+        return newCity;
     }
 }
