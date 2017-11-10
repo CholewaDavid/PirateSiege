@@ -169,6 +169,7 @@ public class MapGrid extends MyDrawable{
                     tile.update();
                 }
             }
+            MapTile.updateStatic();
         }
     }
 }

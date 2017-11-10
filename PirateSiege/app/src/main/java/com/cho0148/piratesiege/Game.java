@@ -15,6 +15,7 @@ import com.cho0148.piratesiege.drawables.City;
 import com.cho0148.piratesiege.drawables.DrawableFactory;
 import com.cho0148.piratesiege.drawables.EntityUpdater;
 import com.cho0148.piratesiege.drawables.MapGrid;
+import com.cho0148.piratesiege.drawables.Ship;
 
 public final class Game extends AppCompatActivity {
     public final int FPS = 60;
@@ -46,6 +47,8 @@ public final class Game extends AppCompatActivity {
 
         mapGrid = DrawableFactory.createMapGrid();
         city = DrawableFactory.createCity((ProgressBar)(findViewById(R.id.progressBarCityMorale)));
+        Ship ship = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, new Vector2D(2000, 50), 3);
+        ship.setGoalPosition(new Vector2D(300, 50));
         renderView.resume();
         entityUpdater.resume();
     }

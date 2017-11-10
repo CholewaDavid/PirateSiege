@@ -10,9 +10,19 @@ public class Vector2D {
         this.y = 0;
     }
 
+    public Vector2D(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
     public Vector2D(float x, float y){
         this.x = x;
         this.y = y;
+    }
+
+    public Vector2D(double x, double y){
+        this.x = (float)x;
+        this.y = (float)y;
     }
 
     public Vector2D(Vector2D vector){
