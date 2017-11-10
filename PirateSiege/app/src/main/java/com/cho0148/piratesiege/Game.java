@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.cho0148.piratesiege.drawables.City;
 import com.cho0148.piratesiege.drawables.DrawableFactory;
@@ -44,7 +45,7 @@ public final class Game extends AppCompatActivity {
         DrawableFactory.init(renderView, entityUpdater);
 
         mapGrid = DrawableFactory.createMapGrid();
-        city = DrawableFactory.createCity();
+        city = DrawableFactory.createCity((ProgressBar)(findViewById(R.id.progressBarCityMorale)));
         renderView.resume();
         entityUpdater.resume();
     }

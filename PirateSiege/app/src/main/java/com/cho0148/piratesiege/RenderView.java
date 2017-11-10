@@ -35,7 +35,7 @@ public class RenderView extends SurfaceView implements Runnable {
         this.surfaceHolder = view.getHolder();
 
         this.clearPaint = new Paint();
-        this.clearPaint.setColor(Color.BLUE);
+        this.clearPaint.setColor(Color.rgb(171, 227, 245));
         this.clearPaint.setStyle(Paint.Style.FILL);
 
         this.frame_period = 1000/this.fps;

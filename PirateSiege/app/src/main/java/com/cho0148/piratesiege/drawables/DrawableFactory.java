@@ -1,5 +1,7 @@
 package com.cho0148.piratesiege.drawables;
 
+import android.widget.ProgressBar;
+
 import com.cho0148.piratesiege.RenderView;
 
 public final class DrawableFactory {
@@ -22,8 +24,8 @@ public final class DrawableFactory {
         return newMapGrid;
     }
 
-    public static City createCity(){
-        City newCity = new City();
+    public static City createCity(ProgressBar progressBar){
+        City newCity = new City(progressBar);
         renderView.addDrawable(newCity);
         entityUpdater.addUpdatable(newCity);
         return newCity;

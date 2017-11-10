@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.ProgressBar;
 
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.R;
@@ -26,11 +27,13 @@ public class City extends MyDrawable{
     private List<Wall> walls;
     private int morale;
     private int money;
+    private ProgressBar progressBarMorale;
 
-    City(){
+    City(ProgressBar progressBar){
         this.morale = this.MAX_MORALE;
         this.money = 0;
         this.walls = new ArrayList<>();
+        this.progressBarMorale = progressBar;
         this.loadCity(Game.getContext());
     }
 
@@ -70,6 +73,7 @@ public class City extends MyDrawable{
             for (Wall wall : this.walls) {
                 wall.update();
             }
+            this.progressBarMorale.setProgress(100*this.morale/this.MAX_MORALE);
         }
     }
 
