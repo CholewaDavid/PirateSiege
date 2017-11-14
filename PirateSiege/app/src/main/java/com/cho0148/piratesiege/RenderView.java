@@ -23,7 +23,8 @@ public class RenderView extends SurfaceView implements Runnable {
     private int frame_period;
     private SurfaceHolder surfaceHolder;
     private Paint clearPaint;
-    private List<MyDrawable> drawables;
+    private static List<MyDrawable> drawables;
+    private static List<MyDrawable> newDrawablesBuffer;
     private Thread renderThread = null;
     private volatile boolean running = false;
     private boolean firstScalingDone = false;
@@ -40,7 +41,8 @@ public class RenderView extends SurfaceView implements Runnable {
 
         this.frame_period = 1000/this.fps;
         this.scale = new Vector2D();
-        this.drawables = new ArrayList<MyDrawable>();
+        this.drawables = new ArrayList<>();
+        this.newDrawablesBuffer = new ArrayList<>();
     }
 
     public void run(){
@@ -52,6 +54,7 @@ public class RenderView extends SurfaceView implements Runnable {
                 continue;
             }
             begin_time = System.currentTimeMillis();
+            this.clearBuffer();
             this.draw();
             end_time = System.currentTimeMillis();
             sleep_time = frame_period - (begin_time - end_time);
@@ -87,44 +90,42 @@ public class RenderView extends SurfaceView implements Runnable {
     }
 
     public void draw(){
-        Canvas canvas = this.surfaceHolder.lockCanvas();
-        if(!this.firstScalingDone){
-            Vector2D tileAmount = Game.getTileAmount();
-            Vector2D canvasSize = new Vector2D(canvas.getWidth(), canvas.getHeight());
-            Vector2D tileSize = Game.getTileSize();
-            float newTileSizeX = canvasSize.x / tileAmount.x;
-            float newTileSizeY = canvasSize.y / tileAmount.y;
-            float scale = 0;
+        synchronized (RenderView.class) {
+            Canvas canvas = this.surfaceHolder.lockCanvas();
+            if (!this.firstScalingDone) {
+                Vector2D tileAmount = Game.getTileAmount();
+                Vector2D canvasSize = new Vector2D(canvas.getWidth(), canvas.getHeight());
+                Vector2D tileSize = Game.getTileSize();
+                float newTileSizeX = canvasSize.x / tileAmount.x;
+                float newTileSizeY = canvasSize.y / tileAmount.y;
+                float scale = 0;
 
-            if(newTileSizeX < newTileSizeY) {
-                scale = newTileSizeX / tileSize.x;
+                if (newTileSizeX < newTileSizeY) {
+                    scale = newTileSizeX / tileSize.x;
+                } else {
+                    scale = newTileSizeY / tileSize.y;
+                }
+
+                this.scale.x = scale;
+                this.scale.y = scale;
+
+                for (MyDrawable d : this.drawables) {
+                    this.scaleDrawable(d);
+                }
+
+                this.firstScalingDone = true;
             }
-            else {
-                scale = newTileSizeY / tileSize.y;
+            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.clearPaint);
+            for (MyDrawable d : drawables) {
+                d.draw(canvas);
             }
-
-            this.scale.x = scale;
-            this.scale.y = scale;
-
-            for(MyDrawable d : this.drawables){
-                this.scaleDrawable(d);
-            }
-
-            this.firstScalingDone = true;
+            this.surfaceHolder.unlockCanvasAndPost(canvas);
         }
-        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.clearPaint);
-        for (MyDrawable d : drawables) {
-            d.draw(canvas);
-        }
-        this.surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
     public void addDrawable(MyDrawable d){
-        this.drawables.add(d);
-        if(firstScalingDone){
-            d.setScale(this.scale);
-        }
+        this.newDrawablesBuffer.add(d);
     }
 
     public void scaleDrawable(MyDrawable d){
@@ -133,5 +134,17 @@ public class RenderView extends SurfaceView implements Runnable {
 
     public Vector2D getScale(){
         return this.scale;
+    }
+
+    private void clearBuffer(){
+        synchronized (RenderView.class) {
+            for (MyDrawable drawable : this.newDrawablesBuffer) {
+                this.drawables.add(drawable);
+                if (firstScalingDone) {
+                    drawable.setScale(this.scale);
+                }
+            }
+            this.newDrawablesBuffer.clear();
+        }
     }
 }

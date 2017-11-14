@@ -45,6 +45,10 @@ public class City extends MyDrawable{
         }
     }
 
+    public float getPositionX(){
+        return this.walls.get(0).getPosition().x;
+    }
+
     @Override
     public void setAlpha(@IntRange(from = 0, to = 255) int alpha) {
 

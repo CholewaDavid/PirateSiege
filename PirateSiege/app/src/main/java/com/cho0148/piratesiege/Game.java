@@ -47,8 +47,8 @@ public final class Game extends AppCompatActivity {
 
         mapGrid = DrawableFactory.createMapGrid();
         city = DrawableFactory.createCity((ProgressBar)(findViewById(R.id.progressBarCityMorale)));
-        Ship ship = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, new Vector2D(2000, 50), 3);
-        ship.setGoalPosition(new Vector2D(300, 50));
+        Ship ship = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, new Vector2D(2000, 50), 10, 200, 1000);
+        ship.setGoalPosition(new Vector2D(city.getPositionX(), 50));
         renderView.resume();
         entityUpdater.resume();
     }

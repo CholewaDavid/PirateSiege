@@ -2,6 +2,7 @@ package com.cho0148.piratesiege.drawables;
 
 
 import android.content.Context;
+import android.content.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +12,16 @@ import static java.lang.Thread.sleep;
 public class EntityUpdater implements Runnable {
     private int fps;
     private int framePeriod;
-    private List<MyDrawable> updatables;
+    private static volatile List<MyDrawable> updatables;
+    private static List<MyDrawable> newUpdatablesBuffer;
     private Thread updateThread;
     private volatile boolean running;
 
     public EntityUpdater(int fps){
         this.fps = fps;
         this.framePeriod = 1000/this.fps;
-        this.updatables = new ArrayList<MyDrawable>();
+        this.updatables = new ArrayList<>();
+        this.newUpdatablesBuffer = new ArrayList<>();
     }
 
     @Override
@@ -28,6 +31,7 @@ public class EntityUpdater implements Runnable {
         long sleepTime;
         while(this.running) {
             beginTime = System.currentTimeMillis();
+            this.clearBuffer();
             this.update();
             endTime = System.currentTimeMillis();
             sleepTime = framePeriod - (beginTime - endTime);
@@ -63,12 +67,23 @@ public class EntityUpdater implements Runnable {
     }
 
     public void update(){
-        for(MyDrawable entity : this.updatables){
-            entity.update();
+        synchronized (EntityUpdater.class) {
+            for (MyDrawable entity : this.updatables) {
+                entity.update();
+            }
         }
     }
 
     public void addUpdatable(MyDrawable d){
-        this.updatables.add(d);
+        this.newUpdatablesBuffer.add(d);
+    }
+
+    private void clearBuffer(){
+        synchronized (EntityUpdater.class) {
+            for (MyDrawable entity : this.newUpdatablesBuffer) {
+                this.updatables.add(entity);
+            }
+            this.newUpdatablesBuffer.clear();
+        }
     }
 }

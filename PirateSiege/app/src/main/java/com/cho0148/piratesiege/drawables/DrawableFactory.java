@@ -33,10 +33,17 @@ public final class DrawableFactory {
         return newCity;
     }
 
-    public static Ship createShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed){
-        Ship newShip = new Ship(variant, position, speed);
+    public static Ship createShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed, int range, int shotCooldown){
+        Ship newShip = new Ship(variant, position, speed, range, shotCooldown);
         renderView.addDrawable(newShip);
         entityUpdater.addUpdatable(newShip);
         return newShip;
+    }
+
+    public static Cannonball createCannonball(Vector2D position, Vector2D goalPosition, float speed, int damage){
+        Cannonball newCannonball = new Cannonball(position, goalPosition, speed, damage);
+        renderView.addDrawable(newCannonball);
+        entityUpdater.addUpdatable(newCannonball);
+        return newCannonball;
     }
 }
