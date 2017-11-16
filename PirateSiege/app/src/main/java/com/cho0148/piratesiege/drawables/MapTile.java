@@ -22,8 +22,6 @@ public class MapTile extends MyDrawable {
     private Bitmap undergroundSprite;
     private Vector2D position;
     private Vector2D tilePosition;
-    private Vector2D defaultSpriteSize;
-    private Vector2D defaultPosition;
     private Paint paint;
     private boolean outOfBounds;
     private MapTileType type;
@@ -36,9 +34,6 @@ public class MapTile extends MyDrawable {
         this.undergroundSprite = null;
 
         this.setPosition();
-
-        this.defaultPosition = new Vector2D(this.position);
-        this.defaultSpriteSize = new Vector2D(this.sprite.getWidth(), this.sprite.getHeight());
 
         this.paint = new Paint();
     }
@@ -58,10 +53,7 @@ public class MapTile extends MyDrawable {
 
     @Override
     public void setScale(Vector2D scale){
-        if(this.undergroundSprite != null)
-            this.undergroundSprite = Bitmap.createScaledBitmap(this.undergroundSprite, (int)(this.defaultSpriteSize.x * scale.x), (int)(this.defaultSpriteSize.y * scale.y), true);
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(this.defaultSpriteSize.x * scale.x), (int)(this.defaultSpriteSize.y * scale.y), true);
-        this.setPosition();
+
     }
 
     @Override

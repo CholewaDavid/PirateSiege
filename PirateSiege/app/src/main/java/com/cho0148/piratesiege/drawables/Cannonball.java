@@ -20,8 +20,6 @@ import com.cho0148.piratesiege.Vector2D;
 public class Cannonball extends MyDrawable {
     private Bitmap sprite;
     private Vector2D position;
-    private Vector2D defaultSpriteSize;
-    private Vector2D defaultPosition;
     private Paint paint;
     private float speed;
     private float defaultSpeed;
@@ -32,23 +30,17 @@ public class Cannonball extends MyDrawable {
     public Cannonball(Vector2D position, Vector2D goalPosition, float speed, int damage){
         this.sprite = BitmapFactory.decodeResource(Game.getContext().getResources(), (Game.getContext().getResources().getIdentifier("cannonball", "drawable", "com.cho0148.piratesiege")));
         this.position = position;
-        this.defaultPosition = this.position;
         this.goalPosition = goalPosition;
         this.movementDegree = Math.atan((this.goalPosition.x - this.position.x) / (this.goalPosition.y - this.position.y));
         this.defaultSpeed = speed;
         this.speed = speed;
         this.damage = damage;
-
-        this.defaultSpriteSize = new Vector2D(this.sprite.getWidth(), this.sprite.getHeight());
         this.paint = new Paint();
     }
 
     @Override
     public void setScale(Vector2D scale) {
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(Math.ceil(this.defaultSpriteSize.x * scale.x)), (int)(Math.ceil(this.defaultSpriteSize.y * scale.y)), true);
-        this.position.x = (float)(Math.floor(this.defaultPosition.x * scale.x));
-        this.position.y = (float)(Math.floor(this.defaultPosition.y * scale.y));
-        this.speed = this.defaultSpeed * scale.x;
+
     }
 
     @Override

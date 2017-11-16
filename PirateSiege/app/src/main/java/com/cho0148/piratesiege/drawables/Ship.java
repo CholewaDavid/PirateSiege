@@ -20,33 +20,30 @@ import com.cho0148.piratesiege.Vector2D;
 public class Ship extends MyDrawable {
     private Bitmap sprite;
     private Vector2D position;
-    private Vector2D defaultSpriteSize;
-    private Vector2D defaultPosition;
     private Paint paint;
     private float speed;
-    private float defaultSpeed;
     private double movementDegree;
+    private Vector2D movementDegreeSinCos;
     private Vector2D goalPosition;
     private ShipSpriteVariant variant;
-    private int range;
+    private float range;
     private long nextShotTime;
     private int shotCooldown;
 
     public enum ShipSpriteVariant{CLEAR, PIRATE, CRUSADER, WARRIOR, HORSE, BONE};
 
-    public Ship(ShipSpriteVariant variant, Vector2D position, float speed, int range, int shotCooldown){
+    public Ship(ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown){
         this.variant = variant;
         this.sprite = getSpriteFromVariant(this.variant);
         this.position = position;
-        this.defaultPosition = this.position;
         this.goalPosition = null;
-        this.defaultSpeed = speed;
         this.speed = speed;
         this.range = range;
         this.shotCooldown = shotCooldown;
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
+        this.movementDegree = 0;
+        this.movementDegreeSinCos = new Vector2D();
 
-        this.defaultSpriteSize = new Vector2D(this.sprite.getWidth(), this.sprite.getHeight());
         this.paint = new Paint();
     }
 
@@ -78,10 +75,7 @@ public class Ship extends MyDrawable {
 
     @Override
     public void setScale(Vector2D scale) {
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(Math.ceil(this.defaultSpriteSize.x * scale.x)), (int)(Math.ceil(this.defaultSpriteSize.y * scale.y)), true);
-        this.position.x = (float)(Math.floor(this.defaultPosition.x * scale.x));
-        this.position.y = (float)(Math.floor(this.defaultPosition.y * scale.y));
-        this.speed = this.defaultSpeed * scale.x;
+
     }
 
     @Override
@@ -104,8 +98,9 @@ public class Ship extends MyDrawable {
         if(this.goalPosition == null)
             return;
 
-        Vector2D movement = new Vector2D(Math.sin(this.movementDegree) * this.speed, Math.cos(this.movementDegree) * this.speed);
-        if(Math.abs(this.position.x - this.goalPosition.x) < this.speed && (this.position.y - this.goalPosition.y) < this.speed)
+        Vector2D movement = new Vector2D(this.movementDegreeSinCos.x * this.speed, this.movementDegreeSinCos.y * this.speed);
+        if(Math.abs(this.position.x - this.goalPosition.x) < this.movementDegreeSinCos.x * this.range &&
+                Math.abs(this.position.y - this.goalPosition.y) < this.movementDegreeSinCos.y * this.range)
             return;
 
         this.position.x += movement.x;
@@ -113,8 +108,10 @@ public class Ship extends MyDrawable {
     }
 
     public void setGoalPosition(Vector2D goalPosition){
-        this.goalPosition = goalPosition;
+        this.goalPosition = new Vector2D(goalPosition);
         this.movementDegree = Math.atan((this.goalPosition.x - this.position.x) / (this.goalPosition.y - this.position.y));
+        this.movementDegreeSinCos.x = (float)Math.sin(movementDegree);
+        this.movementDegreeSinCos.y = (float)Math.cos(movementDegree);
     }
 
     @Override

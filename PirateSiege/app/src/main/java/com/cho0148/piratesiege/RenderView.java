@@ -93,43 +93,31 @@ public class RenderView extends SurfaceView implements Runnable {
         synchronized (RenderView.class) {
             Canvas canvas = this.surfaceHolder.lockCanvas();
             if (!this.firstScalingDone) {
-                Vector2D tileAmount = Game.getTileAmount();
-                Vector2D canvasSize = new Vector2D(canvas.getWidth(), canvas.getHeight());
-                Vector2D tileSize = Game.getTileSize();
-                float newTileSizeX = canvasSize.x / tileAmount.x;
-                float newTileSizeY = canvasSize.y / tileAmount.y;
-                float scale = 0;
-
-                if (newTileSizeX < newTileSizeY) {
-                    scale = newTileSizeX / tileSize.x;
-                } else {
-                    scale = newTileSizeY / tileSize.y;
-                }
-
-                this.scale.x = scale;
-                this.scale.y = scale;
-
+                this.computeScale(canvas);
+                /*
                 for (MyDrawable d : this.drawables) {
                     this.scaleDrawable(d);
                 }
+                */
 
                 this.firstScalingDone = true;
             }
+            canvas.scale(this.scale.x, this.scale.y);
+
             canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.clearPaint);
             for (MyDrawable d : drawables) {
                 d.draw(canvas);
             }
+            canvas.save();
+            canvas.restore();
+
             this.surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
 
     public void addDrawable(MyDrawable d){
         this.newDrawablesBuffer.add(d);
-    }
-
-    public void scaleDrawable(MyDrawable d){
-        d.setScale(this.scale);
     }
 
     public Vector2D getScale(){
@@ -140,11 +128,26 @@ public class RenderView extends SurfaceView implements Runnable {
         synchronized (RenderView.class) {
             for (MyDrawable drawable : this.newDrawablesBuffer) {
                 this.drawables.add(drawable);
-                if (firstScalingDone) {
-                    drawable.setScale(this.scale);
-                }
             }
             this.newDrawablesBuffer.clear();
         }
+    }
+
+    private void computeScale(Canvas canvas){
+        Vector2D tileAmount = Game.getTileAmount();
+        Vector2D canvasSize = new Vector2D(canvas.getWidth(), canvas.getHeight());
+        Vector2D tileSize = Game.getTileSize();
+        float newTileSizeX = canvasSize.x / tileAmount.x;
+        float newTileSizeY = canvasSize.y / tileAmount.y;
+        float scale = 0;
+
+        if (newTileSizeX < newTileSizeY) {
+            scale = newTileSizeX / tileSize.x;
+        } else {
+            scale = newTileSizeY / tileSize.y;
+        }
+
+        this.scale.x = scale;
+        this.scale.y = scale;
     }
 }

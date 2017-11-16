@@ -33,7 +33,7 @@ public final class DrawableFactory {
         return newCity;
     }
 
-    public static Ship createShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed, int range, int shotCooldown){
+    public static Ship createShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown){
         Ship newShip = new Ship(variant, position, speed, range, shotCooldown);
         renderView.addDrawable(newShip);
         entityUpdater.addUpdatable(newShip);

@@ -16,16 +16,11 @@ import com.cho0148.piratesiege.Vector2D;
 public class Wall extends MyDrawable {
     private Bitmap sprite;
     private Vector2D position;
-    private Vector2D defaultSpriteSize;
-    private Vector2D defaultPosition;
     private Paint paint;
 
     public Wall(Bitmap sprite, Vector2D position){
         this.sprite = sprite;
         this.position = position;
-        this.defaultPosition = this.position;
-
-        this.defaultSpriteSize = new Vector2D(this.sprite.getWidth(), this.sprite.getHeight());
         this.paint = new Paint();
     }
 
@@ -35,9 +30,7 @@ public class Wall extends MyDrawable {
 
     @Override
     public void setScale(Vector2D scale) {
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, (int)(Math.ceil(this.defaultSpriteSize.x * scale.x)), (int)(Math.ceil(this.defaultSpriteSize.y * scale.y)), true);
-        this.position.x = (float)(Math.floor(this.defaultPosition.x * scale.x));
-        this.position.y = (float)(Math.floor(this.defaultPosition.y * scale.y));
+
     }
 
     @Override
