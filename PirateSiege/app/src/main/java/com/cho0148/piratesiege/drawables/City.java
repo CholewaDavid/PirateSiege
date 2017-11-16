@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class City extends MyDrawable{
+public class City extends MyDrawable implements IHittable{
     private final int MAX_MORALE = 100;
     private List<Wall> walls;
     private int morale;
@@ -109,5 +109,24 @@ public class City extends MyDrawable{
         } catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        this.morale -= damage;
+    }
+
+    @Override
+    public boolean isFriendly() {
+        return true;
+    }
+
+    @Override
+    public boolean contains(Vector2D point) {
+        for(Wall w : this.walls){
+            if(w.contains(point))
+                return true;
+        }
+        return false;
     }
 }

@@ -67,4 +67,8 @@ public class Cannonball extends MyDrawable {
     public int getOpacity() {
         return PixelFormat.OPAQUE;
     }
+
+    public int getDamage(){
+        return this.damage;
+    }
 }

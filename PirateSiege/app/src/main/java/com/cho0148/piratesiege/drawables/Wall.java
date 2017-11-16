@@ -13,7 +13,7 @@ import android.util.Log;
 import com.cho0148.piratesiege.Vector2D;
 
 
-public class Wall extends MyDrawable {
+public class Wall extends MyDrawable implements IHittable{
     public Wall(Bitmap sprite, Vector2D position){
         super(sprite, position);
     }
@@ -49,5 +49,20 @@ public class Wall extends MyDrawable {
     @Override
     public int getOpacity() {
         return PixelFormat.OPAQUE;
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+
+    }
+
+    @Override
+    public boolean isFriendly() {
+        return true;
+    }
+
+    @Override
+    public boolean contains(Vector2D point) {
+        return point.x > this.position.x && point.y > this.position.y && point.x < this.position.x + this.sprite.getWidth() && point.y < this.position.y + this.sprite.getHeight();
     }
 }

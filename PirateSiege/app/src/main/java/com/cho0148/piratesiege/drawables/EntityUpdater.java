@@ -15,6 +15,8 @@ public class EntityUpdater implements Runnable {
     private static volatile List<MyDrawable> updatables;
     private static List<MyDrawable> newUpdatablesBuffer;
     private static List<MyDrawable> destroyedUpdatables;
+    private static List<Cannonball> cannonballs;
+    private static List<IHittable> hittables;
     private Thread updateThread;
     private volatile boolean running;
 
@@ -24,6 +26,8 @@ public class EntityUpdater implements Runnable {
         updatables = new ArrayList<>();
         newUpdatablesBuffer = new ArrayList<>();
         destroyedUpdatables = new ArrayList<>();
+        cannonballs = new ArrayList<>();
+        hittables = new ArrayList<>();
     }
 
     @Override
@@ -46,6 +50,8 @@ public class EntityUpdater implements Runnable {
                 }
             }
             while(sleepTime < 0){
+                this.clearBuffer();
+                this.removeDestroyed();
                 this.update();
                 sleepTime += this.framePeriod;
             }
@@ -78,6 +84,15 @@ public class EntityUpdater implements Runnable {
                 }
                 entity.update();
             }
+
+            for(Cannonball cannonball : cannonballs){
+                for(IHittable hittable : hittables){
+                    if(hittable.contains(cannonball.position)){
+                        hittable.takeDamage(cannonball.getDamage());
+                        cannonball.destroy();
+                    }
+                }
+            }
         }
     }
 
@@ -89,6 +104,10 @@ public class EntityUpdater implements Runnable {
         synchronized (EntityUpdater.class) {
             for (MyDrawable entity : newUpdatablesBuffer) {
                 updatables.add(entity);
+                if(entity instanceof Cannonball)
+                    cannonballs.add((Cannonball)entity);
+                else if(entity instanceof IHittable)
+                    hittables.add((IHittable)entity);
             }
             newUpdatablesBuffer.clear();
         }
@@ -97,6 +116,8 @@ public class EntityUpdater implements Runnable {
     private void removeDestroyed(){
         for(MyDrawable entity : destroyedUpdatables){
             updatables.remove(entity);
+            cannonballs.remove(entity);
+            hittables.remove(entity);
         }
 
         destroyedUpdatables.clear();
