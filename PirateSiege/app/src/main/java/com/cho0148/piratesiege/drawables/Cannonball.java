@@ -32,6 +32,8 @@ public class Cannonball extends MyDrawable {
     public void update() {
         synchronized (this) {
             this.move();
+            if(this.position.x < -this.sprite.getWidth() || this.position.y < -this.sprite.getHeight() || this.position.x > Game.getAreaSize().x + this.sprite.getWidth() || this.position.y > Game.getAreaSize().y + this.sprite.getHeight())
+                this.destroy();
         }
     }
 

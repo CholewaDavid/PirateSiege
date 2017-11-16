@@ -25,6 +25,7 @@ public final class Game extends AppCompatActivity {
     private static MapGrid mapGrid;
     private static City city;
     private static Context context;
+    private static Vector2D areaSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +58,8 @@ public final class Game extends AppCompatActivity {
         return new Vector2D(renderView.getWidth(), renderView.getHeight());
     }
 
-    public static Vector2D getRenderViewScale(){
-        return renderView.getScale();
+    public static Vector2D getCanvasScale(){
+        return new Vector2D(renderView.getScale());
     }
 
     public static Vector2D getTileAmount(){
@@ -71,5 +72,13 @@ public final class Game extends AppCompatActivity {
 
     public static Context getContext(){
         return context;
+    }
+
+    public static Vector2D getAreaSize(){
+        return areaSize;
+    }
+
+    public static void setAreaSize(Vector2D newAreaSize){
+        areaSize = newAreaSize;
     }
 }

@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -163,5 +161,7 @@ public class RenderView extends SurfaceView implements Runnable {
 
         this.scale.x = scale;
         this.scale.y = scale;
+
+        Game.setAreaSize(new Vector2D(canvas.getWidth() / this.scale.x, canvas.getHeight() / this.scale.y));
     }
 }

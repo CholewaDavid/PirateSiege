@@ -89,7 +89,6 @@ public class Ship extends MyDrawable {
         Vector2D movement = new Vector2D(this.movementDegreeSinCos.x * this.speed, this.movementDegreeSinCos.y * this.speed);
         if(Math.abs(this.position.x - this.goalPosition.x) < this.range &&
                 Math.abs(this.position.y - this.goalPosition.y) < this.range) {
-            this.destroy();
             return;
         }
 
