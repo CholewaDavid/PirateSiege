@@ -31,7 +31,7 @@ public class MapGrid extends MyDrawable{
     private Vector2D tileSize;
 
     MapGrid() {
-        this.tiles = new ArrayList<List<MapTile>>();
+        this.tiles = new ArrayList<>();
         this.tileAmount = new Vector2D();
         this.tileSize = new Vector2D();
         this.loadMap(Game.getContext());
@@ -148,15 +148,6 @@ public class MapGrid extends MyDrawable{
                 MapTile tile = new MapTile(waterBitmap, new Vector2D(j+this.tileAmount.x, i), MapTile.MapTileType.WATER);
                 tile.setOutOfBounds(true);
                 this.tiles.get(i).add(tile);
-            }
-        }
-    }
-
-    @Override
-    public void setScale(Vector2D scale) {
-        for(List<MapTile> row : this.tiles){
-            for(MapTile tile : row){
-                tile.setScale(scale);
             }
         }
     }

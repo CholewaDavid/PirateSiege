@@ -14,23 +14,12 @@ import com.cho0148.piratesiege.Vector2D;
 
 
 public class Wall extends MyDrawable {
-    private Bitmap sprite;
-    private Vector2D position;
-    private Paint paint;
-
     public Wall(Bitmap sprite, Vector2D position){
-        this.sprite = sprite;
-        this.position = position;
-        this.paint = new Paint();
+        super(sprite, position);
     }
 
     public Vector2D getPosition(){
         return this.position;
-    }
-
-    @Override
-    public void setScale(Vector2D scale) {
-
     }
 
     @Override

@@ -65,13 +65,6 @@ public class City extends MyDrawable{
     }
 
     @Override
-    public void setScale(Vector2D scale) {
-        for(Wall wall : this.walls){
-            wall.setScale(scale);
-        }
-    }
-
-    @Override
     public void update() {
         synchronized (City.class) {
             for (Wall wall : this.walls) {

@@ -13,34 +13,19 @@ import android.support.annotation.Nullable;
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.Vector2D;
 
-/**
- * Created by chole on 10.11.2017.
- */
-
 public class Cannonball extends MyDrawable {
-    private Bitmap sprite;
-    private Vector2D position;
-    private Paint paint;
     private float speed;
-    private float defaultSpeed;
     private double movementDegree;
     private Vector2D goalPosition;
     private int damage;
 
-    public Cannonball(Vector2D position, Vector2D goalPosition, float speed, int damage){
-        this.sprite = BitmapFactory.decodeResource(Game.getContext().getResources(), (Game.getContext().getResources().getIdentifier("cannonball", "drawable", "com.cho0148.piratesiege")));
-        this.position = position;
+    public Cannonball(Bitmap sprite, Vector2D position, Vector2D goalPosition, float speed, int damage){
+        super(sprite, position);
+
         this.goalPosition = goalPosition;
         this.movementDegree = Math.atan((this.goalPosition.x - this.position.x) / (this.goalPosition.y - this.position.y));
-        this.defaultSpeed = speed;
         this.speed = speed;
         this.damage = damage;
-        this.paint = new Paint();
-    }
-
-    @Override
-    public void setScale(Vector2D scale) {
-
     }
 
     @Override
@@ -52,8 +37,6 @@ public class Cannonball extends MyDrawable {
 
     public void move(){
         Vector2D movement = new Vector2D(Math.sin(this.movementDegree) * this.speed, Math.cos(this.movementDegree) * this.speed);
-        if(Math.abs(this.position.x - this.goalPosition.x) < this.speed && (this.position.y - this.goalPosition.y) < this.speed)
-            return;
 
         this.position.x += movement.x;
         this.position.y += movement.y;

@@ -1,8 +1,10 @@
 package com.cho0148.piratesiege.drawables;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.ProgressBar;
 
+import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.RenderView;
 import com.cho0148.piratesiege.Vector2D;
 
@@ -41,7 +43,8 @@ public final class DrawableFactory {
     }
 
     public static Cannonball createCannonball(Vector2D position, Vector2D goalPosition, float speed, int damage){
-        Cannonball newCannonball = new Cannonball(position, goalPosition, speed, damage);
+        Bitmap sprite = BitmapFactory.decodeResource(Game.getContext().getResources(), (Game.getContext().getResources().getIdentifier("cannonball", "drawable", "com.cho0148.piratesiege")));
+        Cannonball newCannonball = new Cannonball(sprite, position, goalPosition, speed, damage);
         renderView.addDrawable(newCannonball);
         entityUpdater.addUpdatable(newCannonball);
         return newCannonball;

@@ -13,14 +13,7 @@ import android.support.annotation.Nullable;
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.Vector2D;
 
-/**
- * Created by chole on 10.11.2017.
- */
-
 public class Ship extends MyDrawable {
-    private Bitmap sprite;
-    private Vector2D position;
-    private Paint paint;
     private float speed;
     private double movementDegree;
     private Vector2D movementDegreeSinCos;
@@ -33,9 +26,8 @@ public class Ship extends MyDrawable {
     public enum ShipSpriteVariant{CLEAR, PIRATE, CRUSADER, WARRIOR, HORSE, BONE};
 
     public Ship(ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown){
+        super(getSpriteFromVariant(variant), position);
         this.variant = variant;
-        this.sprite = getSpriteFromVariant(this.variant);
-        this.position = position;
         this.goalPosition = null;
         this.speed = speed;
         this.range = range;
@@ -43,8 +35,6 @@ public class Ship extends MyDrawable {
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
         this.movementDegree = 0;
         this.movementDegreeSinCos = new Vector2D();
-
-        this.paint = new Paint();
     }
 
     public static Bitmap getSpriteFromVariant(ShipSpriteVariant variant){
@@ -74,11 +64,6 @@ public class Ship extends MyDrawable {
     }
 
     @Override
-    public void setScale(Vector2D scale) {
-
-    }
-
-    @Override
     public void update() {
         synchronized (this) {
             if (this.nextShotTime < System.currentTimeMillis()) {
@@ -90,7 +75,10 @@ public class Ship extends MyDrawable {
     }
 
     public void shoot(){
-        DrawableFactory.createCannonball(new Vector2D(this.position), new Vector2D(this.goalPosition), 20, 10);
+        Vector2D pos = new Vector2D(this.position);
+        pos.x += this.movementDegreeSinCos.x * this.sprite.getWidth();
+        pos.y += this.movementDegreeSinCos.y * this.sprite.getHeight() / 2;
+        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 10);
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
     }
 
@@ -99,8 +87,8 @@ public class Ship extends MyDrawable {
             return;
 
         Vector2D movement = new Vector2D(this.movementDegreeSinCos.x * this.speed, this.movementDegreeSinCos.y * this.speed);
-        if(Math.abs(this.position.x - this.goalPosition.x) < this.movementDegreeSinCos.x * this.range &&
-                Math.abs(this.position.y - this.goalPosition.y) < this.movementDegreeSinCos.y * this.range)
+        if(Math.abs(this.position.x - this.goalPosition.x) < this.range &&
+                Math.abs(this.position.y - this.goalPosition.y) < this.range)
             return;
 
         this.position.x += movement.x;
@@ -116,17 +104,12 @@ public class Ship extends MyDrawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        Vector2D pos = new Vector2D(this.position);
-        canvas.rotate(-(float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
-        canvas.drawBitmap(this.sprite, pos.x, pos.y, this.paint);
-        canvas.rotate((float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
-        /*
         synchronized (this) {
-            canvas.rotate(-(float) (this.movementDegree * 180 / Math.PI), this.position.x, this.position.y);
-            canvas.drawBitmap(this.sprite, this.position.x, this.position.y, this.paint);
-            canvas.rotate((float) (this.movementDegree * 180 / Math.PI), this.position.x, this.position.y);
+            Vector2D pos = new Vector2D(this.position);
+            canvas.rotate(-(float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
+            canvas.drawBitmap(this.sprite, pos.x, pos.y, this.paint);
+            canvas.rotate((float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
         }
-        */
     }
 
     @Override

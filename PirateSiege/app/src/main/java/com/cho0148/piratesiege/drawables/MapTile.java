@@ -18,24 +18,17 @@ public class MapTile extends MyDrawable {
 
     private static double waterOffsetStep;
     private static double waterOffset;
-    private Bitmap sprite;
     private Bitmap undergroundSprite;
-    private Vector2D position;
     private Vector2D tilePosition;
-    private Paint paint;
     private boolean outOfBounds;
     private MapTileType type;
 
     MapTile(Bitmap sprite, Vector2D tilePosition, MapTileType type){
-        this.sprite = sprite;
+        super(sprite, computePosition(tilePosition, sprite));
         this.tilePosition = tilePosition;
         this.type = type;
         this.outOfBounds = false;
         this.undergroundSprite = null;
-
-        this.setPosition();
-
-        this.paint = new Paint();
     }
 
     public static void updateStatic(){
@@ -49,11 +42,6 @@ public class MapTile extends MyDrawable {
 
     public void setUndergroundSprite(Bitmap sprite){
         this.undergroundSprite = sprite;
-    }
-
-    @Override
-    public void setScale(Vector2D scale){
-
     }
 
     @Override
@@ -89,7 +77,7 @@ public class MapTile extends MyDrawable {
         return PixelFormat.OPAQUE;
     }
 
-    private void setPosition(){
-        this.position = new Vector2D(this.tilePosition.x * this.sprite.getWidth(), this.tilePosition.y * this.sprite.getHeight());
+    private static Vector2D computePosition(Vector2D tilePosition, Bitmap sprite){
+        return new Vector2D(tilePosition.x * sprite.getWidth(), tilePosition.y * sprite.getHeight());
     }
 }
