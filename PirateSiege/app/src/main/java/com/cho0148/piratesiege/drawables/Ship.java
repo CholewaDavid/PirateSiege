@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
@@ -13,7 +12,7 @@ import android.support.annotation.Nullable;
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.Vector2D;
 
-public class Ship extends MyDrawable {
+public class Ship extends HittableEntity {
     private float speed;
     private double movementDegree;
     private Vector2D movementDegreeSinCos;
@@ -25,8 +24,8 @@ public class Ship extends MyDrawable {
 
     public enum ShipSpriteVariant{CLEAR, PIRATE, CRUSADER, WARRIOR, HORSE, BONE};
 
-    public Ship(ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown){
-        super(getSpriteFromVariant(variant), position);
+    public Ship(ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown, int health){
+        super(getSpriteFromVariant(variant), position, health);
         this.variant = variant;
         this.goalPosition = null;
         this.speed = speed;
@@ -126,5 +125,17 @@ public class Ship extends MyDrawable {
     @Override
     public int getOpacity() {
         return PixelFormat.OPAQUE;
+    }
+
+    @Override
+    public boolean isFriendly() {
+        if(this.variant == ShipSpriteVariant.PIRATE)
+            return false;
+        return true;
+    }
+
+    @Override
+    public boolean contains(Vector2D point) {
+        return false;
     }
 }

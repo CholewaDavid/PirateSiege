@@ -35,8 +35,8 @@ public final class DrawableFactory {
         return newCity;
     }
 
-    public static Ship createShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown){
-        Ship newShip = new Ship(variant, position, speed, range, shotCooldown);
+    public static Ship createShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown, int health){
+        Ship newShip = new Ship(variant, position, speed, range, shotCooldown, health);
         renderView.addDrawable(newShip);
         entityUpdater.addUpdatable(newShip);
         return newShip;
@@ -48,5 +48,13 @@ public final class DrawableFactory {
         renderView.addDrawable(newCannonball);
         entityUpdater.addUpdatable(newCannonball);
         return newCannonball;
+    }
+
+    public static Cannon createCannon(Vector2D position, int shotCooldown, int range){
+        Bitmap sprite = BitmapFactory.decodeResource(Game.getContext().getResources(), (Game.getContext().getResources().getIdentifier("cannon", "drawable", "com.cho0148.piratesiege")));
+        Cannon newCannon = new Cannon(sprite, position, shotCooldown, range);
+        renderView.addDrawable(newCannon);
+        entityUpdater.addUpdatable(newCannon);
+        return newCannon;
     }
 }

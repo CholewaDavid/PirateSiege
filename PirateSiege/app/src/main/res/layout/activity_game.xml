@@ -12,6 +12,20 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/buttonCannon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_weight="1"
+            android:text="Cannon" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -23,8 +37,8 @@
         <ProgressBar
             android:id="@+id/progressBarCityMorale"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="313dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="bottom|start"
             android:layout_marginBottom="5dp"
             android:layout_weight="1" />

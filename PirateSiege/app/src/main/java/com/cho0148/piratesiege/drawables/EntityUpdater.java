@@ -16,7 +16,7 @@ public class EntityUpdater implements Runnable {
     private static List<MyDrawable> newUpdatablesBuffer;
     private static List<MyDrawable> destroyedUpdatables;
     private static List<Cannonball> cannonballs;
-    private static List<IHittable> hittables;
+    private static List<HittableEntity> hittables;
     private Thread updateThread;
     private volatile boolean running;
 
@@ -86,7 +86,7 @@ public class EntityUpdater implements Runnable {
             }
 
             for(Cannonball cannonball : cannonballs){
-                for(IHittable hittable : hittables){
+                for(HittableEntity hittable : hittables){
                     if(hittable.contains(cannonball.position)){
                         hittable.takeDamage(cannonball.getDamage());
                         cannonball.destroy();
@@ -100,14 +100,18 @@ public class EntityUpdater implements Runnable {
         newUpdatablesBuffer.add(d);
     }
 
+    public static List<HittableEntity> getHittables(){
+        return hittables;
+    }
+
     private void clearBuffer(){
         synchronized (EntityUpdater.class) {
             for (MyDrawable entity : newUpdatablesBuffer) {
                 updatables.add(entity);
                 if(entity instanceof Cannonball)
                     cannonballs.add((Cannonball)entity);
-                else if(entity instanceof IHittable)
-                    hittables.add((IHittable)entity);
+                else if(entity instanceof HittableEntity)
+                    hittables.add((HittableEntity) entity);
             }
             newUpdatablesBuffer.clear();
         }

@@ -34,4 +34,8 @@ public abstract class MyDrawable extends Drawable {
     protected void destroy(){
         this.destroyed = true;
     }
+
+    public Vector2D getPosition(){
+        return new Vector2D(this.position);
+    }
 }

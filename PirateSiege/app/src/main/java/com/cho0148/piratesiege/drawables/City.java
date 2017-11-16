@@ -22,19 +22,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class City extends MyDrawable implements IHittable{
-    private final int MAX_MORALE = 100;
+public class City extends HittableEntity{
     private List<Wall> walls;
-    private int morale;
     private int money;
     private ProgressBar progressBarMorale;
 
     City(ProgressBar progressBar){
-        this.morale = this.MAX_MORALE;
+        super(100);
         this.money = 0;
         this.walls = new ArrayList<>();
         this.progressBarMorale = progressBar;
         this.loadCity(Game.getContext());
+    }
+
+    public void buildCannon(Vector2D position){
+        DrawableFactory.createCannon(new Vector2D(this.walls.get(1).position), 3000, 500);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class City extends MyDrawable implements IHittable{
             for (Wall wall : this.walls) {
                 wall.update();
             }
-            this.progressBarMorale.setProgress(100*this.morale/this.MAX_MORALE);
+            this.progressBarMorale.setProgress(100*this.health/this.maxHealth);
         }
     }
 
@@ -112,11 +114,6 @@ public class City extends MyDrawable implements IHittable{
     }
 
     @Override
-    public void takeDamage(int damage) {
-        this.morale -= damage;
-    }
-
-    @Override
     public boolean isFriendly() {
         return true;
     }
@@ -128,5 +125,10 @@ public class City extends MyDrawable implements IHittable{
                 return true;
         }
         return false;
+    }
+
+    @Override
+    protected void destroy(){
+
     }
 }
