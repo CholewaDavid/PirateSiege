@@ -25,6 +25,7 @@ public class RenderView extends SurfaceView implements Runnable {
     private Paint clearPaint;
     private static List<MyDrawable> drawables;
     private static List<MyDrawable> newDrawablesBuffer;
+    private static List<MyDrawable> destroyedDrawables;
     private Thread renderThread = null;
     private volatile boolean running = false;
     private boolean firstScalingDone = false;
@@ -41,8 +42,9 @@ public class RenderView extends SurfaceView implements Runnable {
 
         this.frame_period = 1000/this.fps;
         this.scale = new Vector2D();
-        this.drawables = new ArrayList<>();
-        this.newDrawablesBuffer = new ArrayList<>();
+        drawables = new ArrayList<>();
+        newDrawablesBuffer = new ArrayList<>();
+        destroyedDrawables = new ArrayList<>();
     }
 
     public void run(){
@@ -55,6 +57,7 @@ public class RenderView extends SurfaceView implements Runnable {
             }
             begin_time = System.currentTimeMillis();
             this.clearBuffer();
+            this.removeDestroyed();
             this.draw();
             end_time = System.currentTimeMillis();
             sleep_time = frame_period - (begin_time - end_time);
@@ -107,6 +110,10 @@ public class RenderView extends SurfaceView implements Runnable {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), this.clearPaint);
             for (MyDrawable d : drawables) {
+                if(d.isDestroyed()) {
+                    destroyedDrawables.add(d);
+                    continue;
+                }
                 d.draw(canvas);
             }
             canvas.save();
@@ -117,7 +124,7 @@ public class RenderView extends SurfaceView implements Runnable {
     }
 
     public void addDrawable(MyDrawable d){
-        this.newDrawablesBuffer.add(d);
+        newDrawablesBuffer.add(d);
     }
 
     public Vector2D getScale(){
@@ -126,11 +133,18 @@ public class RenderView extends SurfaceView implements Runnable {
 
     private void clearBuffer(){
         synchronized (RenderView.class) {
-            for (MyDrawable drawable : this.newDrawablesBuffer) {
-                this.drawables.add(drawable);
+            for (MyDrawable drawable : newDrawablesBuffer) {
+                drawables.add(drawable);
             }
-            this.newDrawablesBuffer.clear();
+            newDrawablesBuffer.clear();
         }
+    }
+
+    private void removeDestroyed(){
+        for(MyDrawable drawable : destroyedDrawables){
+            drawables.remove(drawable);
+        }
+        destroyedDrawables.clear();
     }
 
     private void computeScale(Canvas canvas){

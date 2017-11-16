@@ -14,14 +14,16 @@ public class EntityUpdater implements Runnable {
     private int framePeriod;
     private static volatile List<MyDrawable> updatables;
     private static List<MyDrawable> newUpdatablesBuffer;
+    private static List<MyDrawable> destroyedUpdatables;
     private Thread updateThread;
     private volatile boolean running;
 
     public EntityUpdater(int fps){
         this.fps = fps;
         this.framePeriod = 1000/this.fps;
-        this.updatables = new ArrayList<>();
-        this.newUpdatablesBuffer = new ArrayList<>();
+        updatables = new ArrayList<>();
+        newUpdatablesBuffer = new ArrayList<>();
+        destroyedUpdatables = new ArrayList<>();
     }
 
     @Override
@@ -32,6 +34,7 @@ public class EntityUpdater implements Runnable {
         while(this.running) {
             beginTime = System.currentTimeMillis();
             this.clearBuffer();
+            this.removeDestroyed();
             this.update();
             endTime = System.currentTimeMillis();
             sleepTime = framePeriod - (beginTime - endTime);
@@ -68,22 +71,34 @@ public class EntityUpdater implements Runnable {
 
     public void update(){
         synchronized (EntityUpdater.class) {
-            for (MyDrawable entity : this.updatables) {
+            for (MyDrawable entity : updatables) {
+                if(entity.isDestroyed()){
+                    destroyedUpdatables.add(entity);
+                    continue;
+                }
                 entity.update();
             }
         }
     }
 
     public void addUpdatable(MyDrawable d){
-        this.newUpdatablesBuffer.add(d);
+        newUpdatablesBuffer.add(d);
     }
 
     private void clearBuffer(){
         synchronized (EntityUpdater.class) {
-            for (MyDrawable entity : this.newUpdatablesBuffer) {
-                this.updatables.add(entity);
+            for (MyDrawable entity : newUpdatablesBuffer) {
+                updatables.add(entity);
             }
-            this.newUpdatablesBuffer.clear();
+            newUpdatablesBuffer.clear();
         }
+    }
+
+    private void removeDestroyed(){
+        for(MyDrawable entity : destroyedUpdatables){
+            updatables.remove(entity);
+        }
+
+        destroyedUpdatables.clear();
     }
 }

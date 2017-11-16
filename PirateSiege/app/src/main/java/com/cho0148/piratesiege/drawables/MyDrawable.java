@@ -31,7 +31,7 @@ public abstract class MyDrawable extends Drawable {
         return destroyed;
     }
 
-    private void destroy(){
+    protected void destroy(){
         this.destroyed = true;
     }
 }
