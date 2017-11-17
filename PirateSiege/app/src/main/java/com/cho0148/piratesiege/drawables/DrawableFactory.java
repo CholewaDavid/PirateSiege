@@ -42,9 +42,9 @@ public final class DrawableFactory {
         return newShip;
     }
 
-    public static Cannonball createCannonball(Vector2D position, Vector2D goalPosition, float speed, int damage){
+    public static Cannonball createCannonball(Vector2D position, Vector2D goalPosition, float speed, int damage, boolean friendly){
         Bitmap sprite = BitmapFactory.decodeResource(Game.getContext().getResources(), (Game.getContext().getResources().getIdentifier("cannonball", "drawable", "com.cho0148.piratesiege")));
-        Cannonball newCannonball = new Cannonball(sprite, position, goalPosition, speed, damage);
+        Cannonball newCannonball = new Cannonball(sprite, position, goalPosition, speed, damage, friendly);
         renderView.addDrawable(newCannonball);
         entityUpdater.addUpdatable(newCannonball);
         return newCannonball;

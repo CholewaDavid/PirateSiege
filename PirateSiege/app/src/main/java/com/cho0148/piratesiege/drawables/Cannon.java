@@ -53,7 +53,7 @@ public class Cannon extends MyDrawable {
     }
 
     public void shoot(){
-        DrawableFactory.createCannonball(new Vector2D(this.position), new Vector2D(target.getPosition()), 20, 10);
+        DrawableFactory.createCannonball(new Vector2D(this.position), new Vector2D(target.getPosition()), 20, 10, true);
         this.nextShotTime += this.shotCooldown;
     }
 

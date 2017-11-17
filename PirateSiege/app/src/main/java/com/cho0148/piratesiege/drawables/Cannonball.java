@@ -16,16 +16,20 @@ import com.cho0148.piratesiege.Vector2D;
 public class Cannonball extends MyDrawable {
     private float speed;
     private double movementDegree;
+    private Vector2D movementDegreeSinCos;
     private Vector2D goalPosition;
     private int damage;
+    private boolean friendly;
 
-    public Cannonball(Bitmap sprite, Vector2D position, Vector2D goalPosition, float speed, int damage){
+    public Cannonball(Bitmap sprite, Vector2D position, Vector2D goalPosition, float speed, int damage, boolean friendly){
         super(sprite, position);
 
         this.goalPosition = goalPosition;
-        this.movementDegree = Math.atan((this.goalPosition.x - this.position.x) / (this.goalPosition.y - this.position.y));
+        this.movementDegree = this.computeMovementAngle(this.goalPosition);
+        this.movementDegreeSinCos = this.getSinCos(this.movementDegree);
         this.speed = speed;
         this.damage = damage;
+        this.friendly = friendly;
     }
 
     @Override
@@ -38,10 +42,10 @@ public class Cannonball extends MyDrawable {
     }
 
     public void move(){
-        Vector2D movement = new Vector2D(Math.sin(this.movementDegree) * this.speed, Math.cos(this.movementDegree) * this.speed);
+        Vector2D movement = this.computeMovement(this.movementDegreeSinCos, this.speed);
 
-        this.position.x += movement.x;
-        this.position.y += movement.y;
+        this.position.x -= movement.x;
+        this.position.y -= movement.y;
     }
 
     @Override
@@ -70,5 +74,9 @@ public class Cannonball extends MyDrawable {
 
     public int getDamage(){
         return this.damage;
+    }
+
+    public boolean isFriendly(){
+        return this.friendly;
     }
 }

@@ -77,7 +77,7 @@ public class Ship extends HittableEntity {
         Vector2D pos = new Vector2D(this.position);
         pos.x += this.movementDegreeSinCos.x * this.sprite.getWidth();
         pos.y += this.movementDegreeSinCos.y * this.sprite.getHeight() / 2;
-        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 10);
+        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 10, false);
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
     }
 
@@ -85,30 +85,29 @@ public class Ship extends HittableEntity {
         if(this.goalPosition == null)
             return;
 
-        Vector2D movement = new Vector2D(this.movementDegreeSinCos.x * this.speed, this.movementDegreeSinCos.y * this.speed);
+        Vector2D movement = this.computeMovement(this.movementDegreeSinCos, this.speed);
         if(Math.abs(this.position.x - this.goalPosition.x) < this.range &&
                 Math.abs(this.position.y - this.goalPosition.y) < this.range) {
             return;
         }
 
-        this.position.x += movement.x;
-        this.position.y += movement.y;
+        this.position.x -= movement.x;
+        this.position.y -= movement.y;
     }
 
     public void setGoalPosition(Vector2D goalPosition){
         this.goalPosition = new Vector2D(goalPosition);
-        this.movementDegree = Math.atan((this.goalPosition.x - this.position.x) / (this.goalPosition.y - this.position.y));
-        this.movementDegreeSinCos.x = (float)Math.sin(movementDegree);
-        this.movementDegreeSinCos.y = (float)Math.cos(movementDegree);
+        this.movementDegree = this.computeMovementAngle(this.goalPosition);//Math.atan2(this.position.y - this.goalPosition.y, this.position.x - this.goalPosition.x);
+        this.movementDegreeSinCos = this.getSinCos(this.movementDegree);
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
         synchronized (this) {
             Vector2D pos = new Vector2D(this.position);
-            canvas.rotate(-(float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
-            canvas.drawBitmap(this.sprite, pos.x, pos.y, this.paint);
             canvas.rotate((float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
+            canvas.drawBitmap(this.sprite, pos.x, pos.y, this.paint);
+            canvas.rotate(-(float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
         }
     }
 
@@ -129,13 +128,17 @@ public class Ship extends HittableEntity {
 
     @Override
     public boolean isFriendly() {
-        if(this.variant == ShipSpriteVariant.PIRATE)
-            return false;
-        return true;
+        return false;
     }
 
     @Override
     public boolean contains(Vector2D point) {
-        return false;
+        Vector2D thisPosition = this.getPosition();
+        double firstNumerator = Math.pow((this.movementDegreeSinCos.y * (point.x - thisPosition.x) + this.movementDegreeSinCos.x * (point.y - thisPosition.y)), 2);
+        double secondNumerator = Math.pow((this.movementDegreeSinCos.x * (point.x - thisPosition.x) - this.movementDegreeSinCos.y * (point.x - thisPosition.x)), 2);
+        double aPow = Math.pow(this.sprite.getWidth()/4, 2);
+        double bPow = Math.pow(this.sprite.getHeight()/4, 2);
+
+        return (firstNumerator/aPow) + (secondNumerator/bPow) <= 1;
     }
 }

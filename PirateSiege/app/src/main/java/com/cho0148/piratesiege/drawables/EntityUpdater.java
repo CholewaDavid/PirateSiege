@@ -1,9 +1,5 @@
 package com.cho0148.piratesiege.drawables;
 
-
-import android.content.Context;
-import android.content.Entity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +83,7 @@ public class EntityUpdater implements Runnable {
 
             for(Cannonball cannonball : cannonballs){
                 for(HittableEntity hittable : hittables){
-                    if(hittable.contains(cannonball.position)){
+                    if(hittable.isFriendly() != cannonball.isFriendly() && hittable.contains(cannonball.position)){
                         hittable.takeDamage(cannonball.getDamage());
                         cannonball.destroy();
                     }

@@ -36,6 +36,18 @@ public abstract class MyDrawable extends Drawable {
     }
 
     public Vector2D getPosition(){
-        return new Vector2D(this.position);
+        return new Vector2D(this.position.x + this.sprite.getWidth()/2, this.position.y + this.sprite.getHeight()/2);
+    }
+
+    protected double computeMovementAngle(Vector2D goalPosition){
+        return Math.atan2(this.position.y - goalPosition.y, this.position.x - goalPosition.x);
+    }
+
+    protected Vector2D getSinCos(double number){
+        return new Vector2D(Math.sin(number), Math.cos(number));
+    }
+
+    protected Vector2D computeMovement(Vector2D movementDegreeSinCos, float speed){
+        return new Vector2D(movementDegreeSinCos.y * speed, movementDegreeSinCos.x * speed);
     }
 }

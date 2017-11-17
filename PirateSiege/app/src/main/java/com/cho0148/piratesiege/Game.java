@@ -17,6 +17,8 @@ import com.cho0148.piratesiege.drawables.EntityUpdater;
 import com.cho0148.piratesiege.drawables.MapGrid;
 import com.cho0148.piratesiege.drawables.Ship;
 
+import java.util.Random;
+
 public final class Game extends AppCompatActivity {
     public final int FPS = 60;
 
@@ -25,7 +27,7 @@ public final class Game extends AppCompatActivity {
     private static MapGrid mapGrid;
     private static City city;
     private static Context context;
-    private static Vector2D areaSize;
+    private static Vector2D areaSize = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +44,25 @@ public final class Game extends AppCompatActivity {
         layoutParams.height = displayMetrics.heightPixels;
         renderView.setLayoutParams(layoutParams);
 
+        renderView.resume();
+
         entityUpdater = new EntityUpdater(FPS);
+        entityUpdater.resume();
 
         DrawableFactory.init(renderView, entityUpdater);
 
         mapGrid = DrawableFactory.createMapGrid();
         city = DrawableFactory.createCity((ProgressBar)(findViewById(R.id.progressBarCityMorale)));
         city.buildCannon(new Vector2D());
-        Ship ship = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, new Vector2D(2000, 50), 10, 400, 1000, 300);
-        ship.setGoalPosition(new Vector2D(city.getPositionX(), 50));
-        renderView.resume();
-        entityUpdater.resume();
+        Random rand = new Random();
+
+        int areaHeight = 600;
+        for(int i = 0; i < 5; i++) {
+            Vector2D startPos = new Vector2D(2000, rand.nextInt(areaHeight));
+            Vector2D goalPos = new Vector2D(city.getPositionX(), rand.nextInt(areaHeight));
+            Ship ship = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, startPos, 10, 200, 1000, 50);
+            ship.setGoalPosition(goalPos);
+        }
     }
 
     public static Vector2D getRenderViewSize(){
