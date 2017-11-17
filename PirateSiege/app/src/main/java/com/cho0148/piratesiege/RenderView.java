@@ -59,6 +59,8 @@ public class RenderView extends SurfaceView implements Runnable {
             this.draw();
             end_time = System.currentTimeMillis();
             sleep_time = frame_period - (begin_time - end_time);
+
+            /*
             if(sleep_time > 0){
                 try {
                     sleep(sleep_time);
@@ -67,9 +69,13 @@ public class RenderView extends SurfaceView implements Runnable {
                 }
             }
             while(sleep_time < 0){
+                this.clearBuffer();
+                this.removeDestroyed();
                 this.draw();
                 sleep_time += this.frame_period;
             }
+            */
+
         }
     }
 

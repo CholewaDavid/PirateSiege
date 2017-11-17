@@ -38,6 +38,7 @@ public class EntityUpdater implements Runnable {
             this.update();
             endTime = System.currentTimeMillis();
             sleepTime = framePeriod - (beginTime - endTime);
+
             if(sleepTime > 0){
                 try {
                     sleep(sleepTime);
@@ -51,6 +52,7 @@ public class EntityUpdater implements Runnable {
                 this.update();
                 sleepTime += this.framePeriod;
             }
+
         }
     }
 
