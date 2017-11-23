@@ -26,17 +26,30 @@ public class City extends HittableEntity{
     private List<Wall> walls;
     private int money;
     private ProgressBar progressBarMorale;
+    private boolean buildingCannon;
 
     City(ProgressBar progressBar){
         super(100);
         this.money = 0;
         this.walls = new ArrayList<>();
         this.progressBarMorale = progressBar;
+        this.buildingCannon = false;
         this.loadCity(Game.getContext());
     }
 
-    public void buildCannon(Vector2D position){
+    public void handleClick(Vector2D position){
+        if(this.buildingCannon){
+            this.buildCannon(position);
+            this.buildingCannon = false;
+        }
+    }
+
+    private void buildCannon(Vector2D position){
         DrawableFactory.createCannon(new Vector2D(this.walls.get(1).position), 3000, 500);
+    }
+
+    public void setBuildingCannon(boolean building){
+        this.buildingCannon = building;
     }
 
     @Override

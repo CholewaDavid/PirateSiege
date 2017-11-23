@@ -37,7 +37,7 @@ public class EntityUpdater implements Runnable {
             this.removeDestroyed();
             this.update();
             endTime = System.currentTimeMillis();
-            sleepTime = framePeriod - (beginTime - endTime);
+            sleepTime = framePeriod - (endTime - beginTime);
 
             if(sleepTime > 0){
                 try {

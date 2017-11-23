@@ -7,9 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.cho0148.piratesiege.drawables.City;
 import com.cho0148.piratesiege.drawables.DrawableFactory;
@@ -43,7 +47,6 @@ public final class Game extends AppCompatActivity {
         layoutParams.width = displayMetrics.widthPixels;
         layoutParams.height = displayMetrics.heightPixels;
         renderView.setLayoutParams(layoutParams);
-
         renderView.resume();
 
         entityUpdater = new EntityUpdater(FPS);
@@ -53,7 +56,17 @@ public final class Game extends AppCompatActivity {
 
         mapGrid = DrawableFactory.createMapGrid();
         city = DrawableFactory.createCity((ProgressBar)(findViewById(R.id.progressBarCityMorale)));
-        city.buildCannon(new Vector2D());
+
+        Button button = (Button)findViewById(R.id.buttonCannon);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                city.setBuildingCannon(true);
+            }
+        });
+
+        renderView.setOnTouchListener(renderView);
+
         Random rand = new Random();
 
         int areaHeight = 600;
@@ -63,6 +76,19 @@ public final class Game extends AppCompatActivity {
             Ship ship = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, startPos, 10, 200, 1000, 50);
             ship.setGoalPosition(goalPos);
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        renderView.pause();
+        entityUpdater.pause();
+
+    }
+
+    public static void handleClick(Vector2D position){
+        Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT);
+        city.handleClick(position);
     }
 
     public static Vector2D getRenderViewSize(){

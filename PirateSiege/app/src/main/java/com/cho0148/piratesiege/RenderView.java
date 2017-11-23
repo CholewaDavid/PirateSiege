@@ -6,8 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.cho0148.piratesiege.drawables.MyDrawable;
 
@@ -16,7 +19,7 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
-public class RenderView extends SurfaceView implements Runnable {
+public class RenderView extends SurfaceView implements Runnable, View.OnTouchListener {
     private int fps;
     private int frame_period;
     private SurfaceHolder surfaceHolder;
@@ -45,6 +48,7 @@ public class RenderView extends SurfaceView implements Runnable {
         destroyedDrawables = new ArrayList<>();
     }
 
+    @Override
     public void run(){
         long begin_time;
         long end_time;
@@ -58,9 +62,8 @@ public class RenderView extends SurfaceView implements Runnable {
             this.removeDestroyed();
             this.draw();
             end_time = System.currentTimeMillis();
-            sleep_time = frame_period - (begin_time - end_time);
+            sleep_time = frame_period - (end_time - begin_time);
 
-            /*
             if(sleep_time > 0){
                 try {
                     sleep(sleep_time);
@@ -74,8 +77,6 @@ public class RenderView extends SurfaceView implements Runnable {
                 this.draw();
                 sleep_time += this.frame_period;
             }
-            */
-
         }
     }
 
@@ -87,6 +88,8 @@ public class RenderView extends SurfaceView implements Runnable {
 
     public void pause(){
         this.running = false;
+        renderThread.interrupt();
+        /*
         while(true){
             try{
                 renderThread.join();
@@ -94,6 +97,7 @@ public class RenderView extends SurfaceView implements Runnable {
 
             }
         }
+        */
     }
 
     public void draw(){
@@ -133,6 +137,12 @@ public class RenderView extends SurfaceView implements Runnable {
 
     public Vector2D getScale(){
         return this.scale;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event){
+        Toast.makeText(Game.getContext(), "Test", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     private void clearBuffer(){
