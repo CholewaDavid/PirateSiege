@@ -50,6 +50,7 @@ public final class Game extends AppCompatActivity {
         renderView.resume();
 
         entityUpdater = new EntityUpdater(FPS);
+        entityUpdater.setPirateShipSpawner(5000, 0.95, 2000, 600);
         entityUpdater.resume();
 
         DrawableFactory.init(renderView, entityUpdater);
@@ -66,16 +67,6 @@ public final class Game extends AppCompatActivity {
         });
 
         renderView.setOnTouchListener(renderView);
-
-        Random rand = new Random();
-
-        int areaHeight = 600;
-        for(int i = 0; i < 5; i++) {
-            Vector2D startPos = new Vector2D(2000, rand.nextInt(areaHeight));
-            Vector2D goalPos = new Vector2D(city.getPositionX(), rand.nextInt(areaHeight));
-            Ship ship = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, startPos, 10, 200, 1000, 50);
-            ship.setGoalPosition(goalPos);
-        }
     }
 
     @Override
@@ -118,4 +109,6 @@ public final class Game extends AppCompatActivity {
     public static void setAreaSize(Vector2D newAreaSize){
         areaSize = newAreaSize;
     }
+
+    public static float getCityPosX(){return city.getPositionX();}
 }

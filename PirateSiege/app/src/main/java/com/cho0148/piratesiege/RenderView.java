@@ -54,6 +54,8 @@ public class RenderView extends SurfaceView implements Runnable, View.OnTouchLis
         long end_time;
         long sleep_time;
         while(this.running) {
+            if(Thread.interrupted())
+                return;
             if(!this.surfaceHolder.getSurface().isValid()){
                 continue;
             }
@@ -103,6 +105,8 @@ public class RenderView extends SurfaceView implements Runnable, View.OnTouchLis
     public void draw(){
         synchronized (RenderView.class) {
             Canvas canvas = this.surfaceHolder.lockCanvas();
+            if(canvas == null)
+                return;
             if (!this.firstScalingDone) {
                 this.computeScale(canvas);
                 /*

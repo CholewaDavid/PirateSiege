@@ -1,5 +1,7 @@
 package com.cho0148.piratesiege.drawables;
 
+import com.cho0148.piratesiege.PirateShipSpawner;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class EntityUpdater implements Runnable {
     private static List<MyDrawable> destroyedUpdatables;
     private static List<Cannonball> cannonballs;
     private static List<HittableEntity> hittables;
+    private static PirateShipSpawner pirateShipSpawner = null;
     private Thread updateThread;
     private volatile boolean running;
 
@@ -32,6 +35,8 @@ public class EntityUpdater implements Runnable {
         long endTime;
         long sleepTime;
         while(this.running) {
+            if(Thread.interrupted())
+                return;
             beginTime = System.currentTimeMillis();
             this.clearBuffer();
             this.removeDestroyed();
@@ -64,6 +69,8 @@ public class EntityUpdater implements Runnable {
 
     public void pause(){
         this.running = false;
+        updateThread.interrupt();
+        /*
         while(true){
             try{
                 updateThread.join();
@@ -71,6 +78,7 @@ public class EntityUpdater implements Runnable {
 
             }
         }
+        */
     }
 
     public void update(){
@@ -91,11 +99,19 @@ public class EntityUpdater implements Runnable {
                     }
                 }
             }
+
+            if(pirateShipSpawner != null){
+                pirateShipSpawner.update();
+            }
         }
     }
 
     public void addUpdatable(MyDrawable d){
         newUpdatablesBuffer.add(d);
+    }
+
+    public void setPirateShipSpawner(long firstSpawnCooldown, double cooldownModifier, int shipSpawnPosX, int arenaSizeY){
+        pirateShipSpawner = new PirateShipSpawner(firstSpawnCooldown, cooldownModifier, shipSpawnPosX, arenaSizeY);
     }
 
     public static List<HittableEntity> getHittables(){
