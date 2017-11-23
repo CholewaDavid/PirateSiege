@@ -47,6 +47,13 @@ public final class Game extends AppCompatActivity {
         layoutParams.width = displayMetrics.widthPixels;
         layoutParams.height = displayMetrics.heightPixels;
         renderView.setLayoutParams(layoutParams);
+        renderView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT);
+                return true;
+            }
+        });
         renderView.resume();
 
         entityUpdater = new EntityUpdater(FPS);
@@ -65,8 +72,6 @@ public final class Game extends AppCompatActivity {
                 city.setBuildingCannon(true);
             }
         });
-
-        renderView.setOnTouchListener(renderView);
     }
 
     @Override

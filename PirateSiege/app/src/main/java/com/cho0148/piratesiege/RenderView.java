@@ -19,7 +19,7 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
-public class RenderView extends SurfaceView implements Runnable, View.OnTouchListener {
+public class RenderView extends SurfaceView implements Runnable {
     private int fps;
     private int frame_period;
     private SurfaceHolder surfaceHolder;
@@ -109,11 +109,6 @@ public class RenderView extends SurfaceView implements Runnable, View.OnTouchLis
                 return;
             if (!this.firstScalingDone) {
                 this.computeScale(canvas);
-                /*
-                for (MyDrawable d : this.drawables) {
-                    this.scaleDrawable(d);
-                }
-                */
 
                 this.firstScalingDone = true;
             }
@@ -141,12 +136,6 @@ public class RenderView extends SurfaceView implements Runnable, View.OnTouchLis
 
     public Vector2D getScale(){
         return this.scale;
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event){
-        Toast.makeText(Game.getContext(), "Test", Toast.LENGTH_SHORT).show();
-        return true;
     }
 
     private void clearBuffer(){
