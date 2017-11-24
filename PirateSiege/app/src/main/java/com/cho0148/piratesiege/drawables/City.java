@@ -52,7 +52,7 @@ public class City extends HittableEntity{
                     break;
                 }
             }
-            this.buildingCannon = false;
+            this.setBuildingCannon(false);
         }
     }
 
@@ -66,6 +66,9 @@ public class City extends HittableEntity{
 
     public void setBuildingCannon(boolean building){
         this.buildingCannon = building;
+        for(Wall wall : this.walls){
+            wall.setShowCannonPrice(this.buildingCannon);
+        }
     }
 
     @Override

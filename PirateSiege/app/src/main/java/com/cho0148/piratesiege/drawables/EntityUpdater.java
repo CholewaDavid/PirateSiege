@@ -93,7 +93,7 @@ public class EntityUpdater implements Runnable {
 
             for(Cannonball cannonball : cannonballs){
                 for(HittableEntity hittable : hittables){
-                    if(hittable.isFriendly() != cannonball.isFriendly() && hittable.contains(cannonball.position)){
+                    if(!cannonball.isDestroyed() && hittable.isFriendly() != cannonball.isFriendly() && hittable.contains(cannonball.position)){
                         hittable.takeDamage(cannonball.getDamage());
                         cannonball.destroy();
                     }

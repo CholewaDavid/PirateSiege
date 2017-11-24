@@ -36,7 +36,8 @@ public class PirateShipSpawner {
             Vector2D newShipPos = new Vector2D(shipSpawnPosX, random.nextInt(this.arenaSizeY));
             Ship newShip = DrawableFactory.createShip(Ship.ShipSpriteVariant.PIRATE, newShipPos, this.shipSpeed, this.shipRange, this.shipShotCooldown, this.shipHealth);
             newShip.setGoalPosition(new Vector2D(Game.getCityPosX(), random.nextInt(this.arenaSizeY)));
-            this.lastSpawnCooldown *= this.cooldownModifier;
+            if(!(this.lastSpawnCooldown < 500))
+                this.lastSpawnCooldown *= this.cooldownModifier;
             this.nextShipSpawn += this.lastSpawnCooldown;
         }
     }

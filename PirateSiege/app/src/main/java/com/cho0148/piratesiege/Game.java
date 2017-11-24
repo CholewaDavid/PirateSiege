@@ -3,6 +3,9 @@ package com.cho0148.piratesiege;
 
 import android.content.Context;
 import android.content.Entity;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +63,9 @@ public final class Game extends AppCompatActivity {
                 return true;
             }
         });
+
+        this.setFonts();
+
         renderView.resume();
 
         entityUpdater = new EntityUpdater(FPS);
@@ -137,5 +143,21 @@ public final class Game extends AppCompatActivity {
                 textView.setText("Treasure: " + city.getMoney());
             }
         });
+    }
+
+    private void setFonts(){
+        Typeface font = Typeface.createFromAsset(Game.getContext().getAssets(), "fonts/Kenney Pixel.ttf");
+
+        TextView textView = (TextView)findViewById(R.id.textViewMoraleLabel);
+        textView.setTypeface(font);
+
+        textView = (TextView)findViewById(R.id.textViewMoney);
+        textView.setTypeface(font);
+
+        Button button = (Button)findViewById(R.id.buttonCannon);
+        button.setTypeface(font);
+
+        button = (Button)findViewById(R.id.buttonShip);
+        button.setTypeface(font);
     }
 }
