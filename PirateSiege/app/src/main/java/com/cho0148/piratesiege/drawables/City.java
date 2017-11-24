@@ -39,13 +39,14 @@ public class City extends HittableEntity{
 
     public void handleClick(Vector2D position){
         if(this.buildingCannon){
-            this.buildCannon(position);
+            for(Wall wall : this.walls){
+                if(wall.contains(position)){
+                    wall.buildCannon();
+                    break;
+                }
+            }
             this.buildingCannon = false;
         }
-    }
-
-    private void buildCannon(Vector2D position){
-        DrawableFactory.createCannon(new Vector2D(this.walls.get(1).position), 3000, 500);
     }
 
     public void setBuildingCannon(boolean building){

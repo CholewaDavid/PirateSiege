@@ -47,10 +47,13 @@ public final class Game extends AppCompatActivity {
         layoutParams.width = displayMetrics.widthPixels;
         layoutParams.height = displayMetrics.heightPixels;
         renderView.setLayoutParams(layoutParams);
-        renderView.setOnTouchListener(new View.OnTouchListener() {
+
+        SurfaceView view = (SurfaceView) findViewById(R.id.surfaceView);
+        view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT);
+                Vector2D clickPos = new Vector2D(event.getX() / getCanvasScale().x, event.getY() / getCanvasScale().y);
+                city.handleClick(clickPos);
                 return true;
             }
         });

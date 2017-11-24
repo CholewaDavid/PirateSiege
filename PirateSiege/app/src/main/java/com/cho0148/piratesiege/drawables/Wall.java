@@ -14,12 +14,21 @@ import com.cho0148.piratesiege.Vector2D;
 
 
 public class Wall extends MyDrawable implements IHittable{
+    private Cannon cannon = null;
+
     public Wall(Bitmap sprite, Vector2D position){
         super(sprite, position);
     }
 
     public Vector2D getPosition(){
         return this.position;
+    }
+
+    public void buildCannon(){
+        if(this.cannon != null)
+            return;
+        Vector2D pos = new Vector2D(this.position.x + this.sprite.getWidth()/2, this.position.y + this.sprite.getHeight()/2);
+        this.cannon = DrawableFactory.createCannon(pos, 1000, 400);
     }
 
     @Override
