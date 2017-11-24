@@ -141,4 +141,10 @@ public class Ship extends HittableEntity {
 
         return (firstNumerator/aPow) + (secondNumerator/bPow) <= 1;
     }
+
+    @Override
+    protected void destroy(){
+        super.destroy();
+        Game.addMoneyToCity(20);
+    }
 }

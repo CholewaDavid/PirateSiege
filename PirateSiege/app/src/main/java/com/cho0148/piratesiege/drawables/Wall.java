@@ -31,6 +31,12 @@ public class Wall extends MyDrawable implements IHittable{
         this.cannon = DrawableFactory.createCannon(pos, 2000, 400);
     }
 
+    public int getCannonPrice(){
+        if(this.cannon == null)
+            return 100;
+        return this.cannon.getLevel() * 100;
+    }
+
     @Override
     public void update() {
         synchronized (this){

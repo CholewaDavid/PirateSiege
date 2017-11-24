@@ -10,6 +10,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.R;
@@ -43,12 +44,24 @@ public class City extends HittableEntity{
         if(this.buildingCannon){
             for(Wall wall : this.walls){
                 if(wall.contains(position)){
-                    wall.buildCannon();
+                    int cannonPrice = wall.getCannonPrice();
+                    if(cannonPrice <= this.money) {
+                        wall.buildCannon();
+                        Game.addMoneyToCity(-cannonPrice);
+                    }
                     break;
                 }
             }
             this.buildingCannon = false;
         }
+    }
+
+    public void addMoney(int amount){
+        this.money += amount;
+    }
+
+    public int getMoney(){
+        return this.money;
     }
 
     public void setBuildingCannon(boolean building){

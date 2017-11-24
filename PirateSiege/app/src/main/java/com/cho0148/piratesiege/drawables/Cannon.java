@@ -7,7 +7,9 @@ import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
+import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.Vector2D;
 
 import java.util.List;
@@ -17,14 +19,20 @@ public class Cannon extends MyDrawable {
     private int shotCooldown;
     private int range;
     private HittableEntity target;
+    private int level;
 
     public Cannon(Bitmap sprite, Vector2D position, int shotCooldown, int range){
-        super(sprite, position);
+        super(sprite, new Vector2D(position.x - sprite.getWidth()/2, position.y - sprite.getHeight()/2));
 
         this.shotCooldown = shotCooldown;
         this.nextShotTime = System.currentTimeMillis() + shotCooldown;
         this.range = range;
         this.target = null;
+        this.level = 1;
+    }
+
+    public int getCannonLevel(){
+        return this.level;
     }
 
     @Override

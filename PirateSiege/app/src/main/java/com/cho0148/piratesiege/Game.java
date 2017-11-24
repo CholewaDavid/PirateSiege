@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cho0148.piratesiege.drawables.City;
@@ -32,6 +33,7 @@ public final class Game extends AppCompatActivity {
     private static City city;
     private static Context context;
     private static Vector2D areaSize = null;
+    private static Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public final class Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         context = this.getBaseContext();
+        game = this;
 
         renderView = new RenderView(FPS, context, (SurfaceView)findViewById(R.id.surfaceView));
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -67,6 +70,7 @@ public final class Game extends AppCompatActivity {
 
         mapGrid = DrawableFactory.createMapGrid();
         city = DrawableFactory.createCity((ProgressBar)(findViewById(R.id.progressBarCityMorale)));
+        addMoneyToCity(0);
 
         Button button = (Button)findViewById(R.id.buttonCannon);
         button.setOnClickListener(new View.OnClickListener() {
@@ -119,4 +123,19 @@ public final class Game extends AppCompatActivity {
     }
 
     public static float getCityPosX(){return city.getPositionX();}
+
+    public static void addMoneyToCity(int amount){
+        game.addMoneyToCityPrivate(amount);
+    }
+
+    private void addMoneyToCityPrivate(int amount){
+        city.addMoney(amount);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run(){
+                TextView textView = (TextView)(findViewById(R.id.textViewMoney));
+                textView.setText("Treasure: " + city.getMoney());
+            }
+        });
+    }
 }

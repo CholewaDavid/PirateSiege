@@ -3,6 +3,7 @@ package com.cho0148.piratesiege.drawables;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.RenderView;
