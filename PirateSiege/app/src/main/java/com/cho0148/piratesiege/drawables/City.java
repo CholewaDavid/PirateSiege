@@ -27,13 +27,15 @@ public class City extends HittableEntity{
     private int money;
     private ProgressBar progressBarMorale;
     private boolean buildingCannon;
+    private double healthRegen;
 
     City(ProgressBar progressBar){
         super(100);
-        this.money = 0;
+        this.money = 100;
         this.walls = new ArrayList<>();
         this.progressBarMorale = progressBar;
         this.buildingCannon = false;
+        this.healthRegen = 0.005;
         this.loadCity(Game.getContext());
     }
 
@@ -86,7 +88,10 @@ public class City extends HittableEntity{
             for (Wall wall : this.walls) {
                 wall.update();
             }
-            this.progressBarMorale.setProgress(100*this.health/this.maxHealth);
+            this.health += this.healthRegen;
+            if(this.health > this.maxHealth)
+                this.health = this.maxHealth;
+            this.progressBarMorale.setProgress((int)(100*this.health/this.maxHealth));
         }
     }
 

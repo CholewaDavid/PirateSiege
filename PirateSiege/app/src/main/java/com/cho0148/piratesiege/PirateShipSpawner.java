@@ -24,7 +24,7 @@ public class PirateShipSpawner {
         this.nextShipSpawn = System.currentTimeMillis() + this.lastSpawnCooldown;
         this.shipSpawnPosX = shipSpawnPosX;
         this.arenaSizeY = arenaSizeY;
-        this.shipSpeed = 10;
+        this.shipSpeed = 3;
         this.shipRange = 200;
         this.shipShotCooldown = 5000;
         this.shipHealth = 50;

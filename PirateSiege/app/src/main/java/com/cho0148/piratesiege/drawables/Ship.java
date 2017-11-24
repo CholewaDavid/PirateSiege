@@ -77,7 +77,7 @@ public class Ship extends HittableEntity {
         Vector2D pos = new Vector2D(this.position);
         pos.x += this.movementDegreeSinCos.x * this.sprite.getWidth();
         pos.y += this.movementDegreeSinCos.y * this.sprite.getHeight() / 2;
-        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 10, false);
+        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 3, false);
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
     }
 

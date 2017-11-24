@@ -28,7 +28,7 @@ public class Wall extends MyDrawable implements IHittable{
         if(this.cannon != null)
             return;
         Vector2D pos = new Vector2D(this.position.x + this.sprite.getWidth()/2, this.position.y + this.sprite.getHeight()/2);
-        this.cannon = DrawableFactory.createCannon(pos, 1000, 400);
+        this.cannon = DrawableFactory.createCannon(pos, 2000, 400);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Wall extends MyDrawable implements IHittable{
     }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(float damage) {
 
     }
 
