@@ -22,6 +22,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class City extends HittableEntity{
     private List<Wall> walls;
@@ -29,6 +30,9 @@ public class City extends HittableEntity{
     private ProgressBar progressBarMorale;
     private boolean buildingCannon;
     private double healthRegen;
+    private Vector2D portPosition;
+    private Vector2D portGoalPosition;
+    private int newShipPrice;
 
     City(ProgressBar progressBar){
         super(100);
@@ -37,6 +41,7 @@ public class City extends HittableEntity{
         this.progressBarMorale = progressBar;
         this.buildingCannon = false;
         this.healthRegen = 0.005;
+        this.newShipPrice = 50;
         this.loadCity(Game.getContext());
     }
 
@@ -56,12 +61,32 @@ public class City extends HittableEntity{
         }
     }
 
+    public void buyNewShip(){
+        if(this.buildingCannon)
+            return;
+
+        if(this.money < this.newShipPrice)
+            return;
+
+        PlayerShip newPlayerShip = DrawableFactory.createPlayerShip(Ship.ShipSpriteVariant.CRUSADER, this.getPortPosition(), 3, 200, 3000, 40);
+        newPlayerShip.setGoalPosition(this.getPortGoalPosition(), false);
+        Game.addMoneyToCity(-this.newShipPrice);
+    }
+
     public void addMoney(int amount){
         this.money += amount;
     }
 
     public int getMoney(){
         return this.money;
+    }
+
+    public Vector2D getPortPosition(){
+        return new Vector2D(this.portPosition);
+    }
+
+    public Vector2D getPortGoalPosition(){
+        return new Vector2D(this.portGoalPosition);
     }
 
     public void setBuildingCannon(boolean building){
@@ -132,6 +157,16 @@ public class City extends HittableEntity{
                             position.x *= sprite.getWidth();
                             position.y *= sprite.getHeight();
                             this.walls.add(new Wall(sprite, position));
+                        }
+                        else if(name.equals("port")){
+                            int currentColumn = Integer.parseInt(parser.getAttributeValue(null, "column"));
+                            Vector2D tileSize = MapTile.getSpriteSize();
+                            this.portPosition = new Vector2D(tileSize.x * currentColumn + tileSize.x/2, tileSize.y * currentRow + tileSize.y / 2);
+                        }
+                        else if(name.equals("portgoal")){
+                            int currentColumn = Integer.parseInt(parser.getAttributeValue(null, "column"));
+                            Vector2D tileSize = MapTile.getSpriteSize();
+                            this.portGoalPosition = new Vector2D(tileSize.x * currentColumn + tileSize.x/2, tileSize.y * currentRow + tileSize.y / 2);
                         }
                         break;
                     }

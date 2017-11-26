@@ -12,15 +12,16 @@ import android.support.annotation.Nullable;
 import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.Vector2D;
 
-public class Ship extends HittableEntity {
+public abstract class Ship extends HittableEntity {
     private float speed;
     private double movementDegree;
     private Vector2D movementDegreeSinCos;
-    private Vector2D goalPosition;
     private ShipSpriteVariant variant;
     private float range;
     private long nextShotTime;
     private int shotCooldown;
+    private boolean goalPositionShoot;
+    protected Vector2D goalPosition;
 
     public enum ShipSpriteVariant{CLEAR, PIRATE, CRUSADER, WARRIOR, HORSE, BONE};
 
@@ -34,6 +35,7 @@ public class Ship extends HittableEntity {
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
         this.movementDegree = 0;
         this.movementDegreeSinCos = new Vector2D();
+        this.goalPositionShoot = false;
     }
 
     public static Bitmap getSpriteFromVariant(ShipSpriteVariant variant){
@@ -66,8 +68,10 @@ public class Ship extends HittableEntity {
     public void update() {
         synchronized (this) {
             if (this.nextShotTime < System.currentTimeMillis()) {
-                if (Math.abs(this.position.x - this.goalPosition.x) < this.range && (this.position.y - this.goalPosition.y) < this.range)
-                    this.shoot();
+                if(this.goalPositionShoot) {
+                    if (Math.abs(this.position.x - this.goalPosition.x) < this.range && (this.position.y - this.goalPosition.y) < this.range)
+                        this.shoot();
+                }
             }
             this.move();
         }
@@ -77,28 +81,34 @@ public class Ship extends HittableEntity {
         Vector2D pos = new Vector2D(this.position);
         pos.x += this.movementDegreeSinCos.x * this.sprite.getWidth();
         pos.y += this.movementDegreeSinCos.y * this.sprite.getHeight() / 2;
-        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 3, false);
+        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 3, this.isFriendly());
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
     }
 
-    public void move(){
-        if(this.goalPosition == null)
+    public void move() {
+        if (this.goalPosition == null)
             return;
 
         Vector2D movement = this.computeMovement(this.movementDegreeSinCos, this.speed);
-        if(Math.abs(this.position.x - this.goalPosition.x) < this.range &&
-                Math.abs(this.position.y - this.goalPosition.y) < this.range) {
-            return;
+        if (this.goalPositionShoot){
+            if (Math.abs(this.position.x - this.goalPosition.x) < this.range &&
+                    Math.abs(this.position.y - this.goalPosition.y) < this.range) {
+                return;
+            }
         }
-
+        else{
+            if(this.contains(this.goalPosition))
+                return;
+        }
         this.position.x -= movement.x;
         this.position.y -= movement.y;
     }
 
-    public void setGoalPosition(Vector2D goalPosition){
+    public void setGoalPosition(Vector2D goalPosition, boolean goalPositionShoot){
         this.goalPosition = new Vector2D(goalPosition);
         this.movementDegree = this.computeMovementAngle(this.goalPosition);//Math.atan2(this.position.y - this.goalPosition.y, this.position.x - this.goalPosition.x);
         this.movementDegreeSinCos = this.getSinCos(this.movementDegree);
+        this.goalPositionShoot = goalPositionShoot;
     }
 
     @Override
@@ -127,11 +137,6 @@ public class Ship extends HittableEntity {
     }
 
     @Override
-    public boolean isFriendly() {
-        return false;
-    }
-
-    @Override
     public boolean contains(Vector2D point) {
         Vector2D thisPosition = this.getPosition();
         double firstNumerator = Math.pow((this.movementDegreeSinCos.y * (point.x - thisPosition.x) + this.movementDegreeSinCos.x * (point.y - thisPosition.y)), 2);
@@ -140,11 +145,5 @@ public class Ship extends HittableEntity {
         double bPow = Math.pow(this.sprite.getHeight()/4, 2);
 
         return (firstNumerator/aPow) + (secondNumerator/bPow) <= 1;
-    }
-
-    @Override
-    protected void destroy(){
-        super.destroy();
-        Game.addMoneyToCity(20);
     }
 }

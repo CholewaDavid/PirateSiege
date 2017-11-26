@@ -18,7 +18,10 @@
         <wall column="4" sprite="tile_61"/>
     </row>
     <row/>
-    <row/>
+    <row>
+        <port column="3"/>
+        <portgoal column="8"/>
+    </row>
     <row/>
     <row>
         <wall column="4" sprite="tile_45"/>

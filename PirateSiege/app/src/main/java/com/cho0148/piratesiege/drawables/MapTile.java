@@ -1,6 +1,7 @@
 package com.cho0148.piratesiege.drawables;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -10,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.cho0148.piratesiege.Game;
 import com.cho0148.piratesiege.Vector2D;
 
 
@@ -34,6 +36,12 @@ public class MapTile extends MyDrawable {
     public static void updateStatic(){
         waterOffsetStep+=0.05;
         waterOffset = Math.sin(waterOffsetStep);
+    }
+
+    public static Vector2D getSpriteSize(){
+        int spriteID = Game.getContext().getResources().getIdentifier("tile_73", "drawable", "com.cho0148.piratesiege");
+        Bitmap sprite = BitmapFactory.decodeResource(Game.getContext().getResources(), spriteID);
+        return new Vector2D(sprite.getWidth(), sprite.getHeight());
     }
 
     public void setOutOfBounds(boolean outOfBounds){

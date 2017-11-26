@@ -78,11 +78,19 @@ public final class Game extends AppCompatActivity {
         city = DrawableFactory.createCity((ProgressBar)(findViewById(R.id.progressBarCityMorale)));
         addMoneyToCity(0);
 
-        Button button = (Button)findViewById(R.id.buttonCannon);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonCannon = (Button)findViewById(R.id.buttonCannon);
+        buttonCannon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 city.setBuildingCannon(true);
+            }
+        });
+
+        Button buttonShip = (Button)findViewById(R.id.buttonShip);
+        buttonShip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                city.buyNewShip();
             }
         });
     }
