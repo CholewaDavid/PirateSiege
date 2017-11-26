@@ -70,7 +70,11 @@ public final class Game extends AppCompatActivity {
                                 clickPosition = clickPos;
                                 break;
                             case MotionEvent.ACTION_UP:
-                                Rect area = new Rect((int) clickPosition.x, (int) clickPosition.y, (int) clickPos.x, (int) clickPos.y);
+                                int bottom = (int)Math.max(clickPosition.y, clickPos.y);
+                                int top = (int)Math.min(clickPosition.y, clickPos.y);
+                                int right = (int)Math.max(clickPosition.x, clickPos.x);
+                                int left = (int)Math.min(clickPosition.x, clickPos.x);
+                                Rect area = new Rect(left, top, right, bottom);
                                 PlayerShipController.selectShips(area);
                                 PlayerShipController.setSelectingShips(false);
                         }
