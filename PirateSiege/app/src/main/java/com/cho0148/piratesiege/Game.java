@@ -165,6 +165,8 @@ public final class Game extends AppCompatActivity {
 
     public static float getCityPosX(){return city.getPositionX();}
 
+    public static float getCityOutsidePosX(){return city.getPositionXOutside();}
+
     public static void addMoneyToCity(int amount){
         game.addMoneyToCityPrivate(amount);
     }

@@ -163,4 +163,8 @@ public class MapGrid extends MyDrawable{
             MapTile.updateStatic();
         }
     }
+
+    public boolean shipPassable(Vector2D position){
+        return true;
+    }
 }

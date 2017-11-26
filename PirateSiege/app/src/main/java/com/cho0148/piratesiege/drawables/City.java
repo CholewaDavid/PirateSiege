@@ -112,6 +112,8 @@ public class City extends HittableEntity{
         return this.walls.get(0).getPosition().x;
     }
 
+    public float getPositionXOutside(){return this.walls.get(0).getPosition().x + MapTile.getSpriteSize().x;}
+
     @Override
     public void setAlpha(@IntRange(from = 0, to = 255) int alpha) {
 
