@@ -89,6 +89,10 @@ public class City extends HittableEntity{
         return new Vector2D(this.portGoalPosition);
     }
 
+    public boolean getBuildingCannon(){
+        return this.buildingCannon;
+    }
+
     public void setBuildingCannon(boolean building){
         this.buildingCannon = building;
         for(Wall wall : this.walls){

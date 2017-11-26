@@ -1,6 +1,7 @@
 package com.cho0148.piratesiege.drawables;
 
 import com.cho0148.piratesiege.PirateShipSpawner;
+import com.cho0148.piratesiege.PlayerShipController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +139,7 @@ public class EntityUpdater implements Runnable {
             hittables.remove(entity);
         }
 
+        PlayerShipController.removeDestroyed();
         destroyedUpdatables.clear();
     }
 }

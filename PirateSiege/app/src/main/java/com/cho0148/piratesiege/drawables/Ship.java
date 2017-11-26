@@ -14,7 +14,6 @@ import com.cho0148.piratesiege.Vector2D;
 
 public abstract class Ship extends HittableEntity {
     private float speed;
-    private double movementDegree;
     private Vector2D movementDegreeSinCos;
     private ShipSpriteVariant variant;
     private float range;
@@ -22,6 +21,7 @@ public abstract class Ship extends HittableEntity {
     private int shotCooldown;
     private boolean goalPositionShoot;
     protected Vector2D goalPosition;
+    protected double movementDegree;
 
     public enum ShipSpriteVariant{CLEAR, PIRATE, CRUSADER, WARRIOR, HORSE, BONE};
 
@@ -97,8 +97,10 @@ public abstract class Ship extends HittableEntity {
             }
         }
         else{
-            if(this.contains(this.goalPosition))
+            if(this.contains(this.goalPosition)) {
+                this.goalPosition = null;
                 return;
+            }
         }
         this.position.x -= movement.x;
         this.position.y -= movement.y;
@@ -115,9 +117,9 @@ public abstract class Ship extends HittableEntity {
     public void draw(@NonNull Canvas canvas) {
         synchronized (this) {
             Vector2D pos = new Vector2D(this.position);
-            canvas.rotate((float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
+            canvas.rotate((float) (this.movementDegree * 180 / Math.PI), pos.x + this.sprite.getWidth()/2, pos.y + this.sprite.getHeight()/2);
             canvas.drawBitmap(this.sprite, pos.x, pos.y, this.paint);
-            canvas.rotate(-(float) (this.movementDegree * 180 / Math.PI), pos.x, pos.y);
+            canvas.rotate(-(float) (this.movementDegree * 180 / Math.PI), pos.x + this.sprite.getWidth()/2, pos.y + this.sprite.getHeight()/2);
         }
     }
 

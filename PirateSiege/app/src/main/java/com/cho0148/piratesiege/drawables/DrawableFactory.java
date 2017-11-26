@@ -6,6 +6,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cho0148.piratesiege.Game;
+import com.cho0148.piratesiege.PlayerShipController;
 import com.cho0148.piratesiege.RenderView;
 import com.cho0148.piratesiege.Vector2D;
 
@@ -47,6 +48,7 @@ public final class DrawableFactory {
         PlayerShip newPlayerShip = new PlayerShip(variant, position, speed, range, shotCooldown, health);
         renderView.addDrawable(newPlayerShip);
         entityUpdater.addUpdatable(newPlayerShip);
+        PlayerShipController.addPlayerShip(newPlayerShip);
         return newPlayerShip;
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Entity;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public final class Game extends AppCompatActivity {
     private static Context context;
     private static Vector2D areaSize = null;
     private static Game game;
+    private static Vector2D clickPosition = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,24 @@ public final class Game extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Vector2D clickPos = new Vector2D(event.getX() / getCanvasScale().x, event.getY() / getCanvasScale().y);
-                city.handleClick(clickPos);
+                if(city.getBuildingCannon())
+                    city.handleClick(clickPos);
+                else{
+                    if(PlayerShipController.isSelectingShips()) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                clickPosition = clickPos;
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                Rect area = new Rect((int) clickPosition.x, (int) clickPosition.y, (int) clickPos.x, (int) clickPos.y);
+                                PlayerShipController.selectShips(area);
+                                PlayerShipController.setSelectingShips(false);
+                        }
+                    }
+                    else{
+                        PlayerShipController.setTarget(clickPos);
+                    }
+                }
                 return true;
             }
         });
@@ -91,6 +110,14 @@ public final class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 city.buyNewShip();
+            }
+        });
+
+        Button buttonSelectingShips = (Button)findViewById(R.id.buttonSelectShips);
+        buttonSelectingShips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayerShipController.setSelectingShips(!PlayerShipController.isSelectingShips());
             }
         });
     }
@@ -166,6 +193,9 @@ public final class Game extends AppCompatActivity {
         button.setTypeface(font);
 
         button = (Button)findViewById(R.id.buttonShip);
+        button.setTypeface(font);
+
+        button = (Button)findViewById(R.id.buttonSelectShips);
         button.setTypeface(font);
     }
 }
