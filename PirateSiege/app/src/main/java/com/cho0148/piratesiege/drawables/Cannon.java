@@ -18,6 +18,7 @@ public class Cannon extends MyDrawable {
     private long nextShotTime;
     private int shotCooldown;
     private int range;
+    private int damage;
     private HittableEntity target;
     private int level;
 
@@ -29,10 +30,17 @@ public class Cannon extends MyDrawable {
         this.range = range;
         this.target = null;
         this.level = 1;
+        this.damage = 5;
     }
 
     public int getCannonLevel(){
         return this.level;
+    }
+
+    public void upgrade(){
+        this.damage *= 1.5;
+        this.shotCooldown *= 0.3;
+        this.level++;
     }
 
     @Override
@@ -61,7 +69,7 @@ public class Cannon extends MyDrawable {
     }
 
     public void shoot(){
-        DrawableFactory.createCannonball(new Vector2D(this.position), new Vector2D(target.getPosition()), 20, 10, true);
+        DrawableFactory.createCannonball(new Vector2D(this.position), new Vector2D(target.getPosition()), 20, this.damage, true);
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
     }
 

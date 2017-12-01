@@ -81,7 +81,7 @@ public abstract class Ship extends HittableEntity {
         Vector2D pos = new Vector2D(this.position);
         pos.x += this.movementDegreeSinCos.x * this.sprite.getWidth();
         pos.y += this.movementDegreeSinCos.y * this.sprite.getHeight() / 2;
-        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 3, this.isFriendly());
+        DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 5, this.isFriendly());
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
     }
 
@@ -143,8 +143,8 @@ public abstract class Ship extends HittableEntity {
         Vector2D thisPosition = this.getPosition();
         double firstNumerator = Math.pow((this.movementDegreeSinCos.y * (point.x - thisPosition.x) + this.movementDegreeSinCos.x * (point.y - thisPosition.y)), 2);
         double secondNumerator = Math.pow((this.movementDegreeSinCos.x * (point.x - thisPosition.x) - this.movementDegreeSinCos.y * (point.x - thisPosition.x)), 2);
-        double aPow = Math.pow(this.sprite.getWidth()/4, 2);
-        double bPow = Math.pow(this.sprite.getHeight()/4, 2);
+        double aPow = Math.pow(this.sprite.getWidth()/2, 2);
+        double bPow = Math.pow(this.sprite.getHeight()/2, 2);
 
         return (firstNumerator/aPow) + (secondNumerator/bPow) <= 1;
     }

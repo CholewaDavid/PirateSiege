@@ -45,8 +45,11 @@ public class Wall extends MyDrawable implements IHittable{
     }
 
     public void buildCannon(){
-        if(this.cannon != null)
+        if(this.cannon != null){
+            this.cannon.upgrade();
             return;
+        }
+
         Vector2D pos = new Vector2D(this.position.x + this.sprite.getWidth()/2, this.position.y + this.sprite.getHeight()/2);
         this.cannon = DrawableFactory.createCannon(pos, 2000, 400);
     }
