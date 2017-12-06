@@ -3,11 +3,14 @@ package com.cho0148.piratesiege;
 
 import android.content.Context;
 import android.content.Entity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -16,6 +19,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +43,10 @@ public final class Game extends AppCompatActivity {
     private static Vector2D areaSize = null;
     private static Game game;
     private static Vector2D clickPosition = null;
+    private static LinearLayout layoutEndGame;
+    private static TextView textViewScore;
+    private static MediaPlayer mainMusic;
+    private static boolean playingSounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,7 @@ public final class Game extends AppCompatActivity {
 
         context = this.getBaseContext();
         game = this;
+        mainMusic = MediaPlayer.create(Game.getContext(), R.raw.professor_umlaut);
 
         renderView = new RenderView(FPS, context, (SurfaceView)findViewById(R.id.surfaceView));
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -55,6 +64,9 @@ public final class Game extends AppCompatActivity {
         layoutParams.width = displayMetrics.widthPixels;
         layoutParams.height = displayMetrics.heightPixels;
         renderView.setLayoutParams(layoutParams);
+
+        layoutEndGame = (LinearLayout)findViewById(R.id.linearLayoutEndGame);
+        textViewScore = (TextView) findViewById(R.id.textViewScore);
 
         SurfaceView view = (SurfaceView) findViewById(R.id.surfaceView);
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -124,6 +136,23 @@ public final class Game extends AppCompatActivity {
                 PlayerShipController.setSelectingShips(!PlayerShipController.isSelectingShips());
             }
         });
+
+        Button buttonEndGame = (Button)findViewById(R.id.buttonEndGame);
+        buttonEndGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean musicPreference = preferences.getBoolean("notifications_music", false);
+        if(musicPreference) {
+            mainMusic.setLooping(true);
+            mainMusic.start();
+        }
+
+        playingSounds = preferences.getBoolean("notifications_sounds", false);
     }
 
     @Override
@@ -131,7 +160,7 @@ public final class Game extends AppCompatActivity {
         super.onDestroy();
         renderView.pause();
         entityUpdater.pause();
-
+        mainMusic.stop();
     }
 
     public static void handleClick(Vector2D position){
@@ -163,6 +192,10 @@ public final class Game extends AppCompatActivity {
         return areaSize;
     }
 
+    public static boolean isPlayingSounds(){
+        return playingSounds;
+    }
+
     public static void setAreaSize(Vector2D newAreaSize){
         areaSize = newAreaSize;
     }
@@ -173,6 +206,22 @@ public final class Game extends AppCompatActivity {
 
     public static void addMoneyToCity(int amount){
         game.addMoneyToCityPrivate(amount);
+    }
+
+    public static void endGame(){
+        game.endGamePrivate();
+        renderView.pause();
+        entityUpdater.pause();
+    }
+
+    private void endGamePrivate(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run(){
+                layoutEndGame.setVisibility(View.VISIBLE);
+                textViewScore.setText("Score: " + city.getHighScore());
+            }
+        });
     }
 
     private void addMoneyToCityPrivate(int amount){
@@ -195,6 +244,12 @@ public final class Game extends AppCompatActivity {
         textView = (TextView)findViewById(R.id.textViewMoney);
         textView.setTypeface(font);
 
+        textView = (TextView)findViewById(R.id.textViewCityLost);
+        textView.setTypeface(font);
+
+        textView = (TextView)findViewById(R.id.textViewScore);
+        textView.setTypeface(font);
+
         Button button = (Button)findViewById(R.id.buttonCannon);
         button.setTypeface(font);
 
@@ -202,6 +257,9 @@ public final class Game extends AppCompatActivity {
         button.setTypeface(font);
 
         button = (Button)findViewById(R.id.buttonSelectShips);
+        button.setTypeface(font);
+
+        button = (Button)findViewById(R.id.buttonEndGame);
         button.setTypeface(font);
     }
 }

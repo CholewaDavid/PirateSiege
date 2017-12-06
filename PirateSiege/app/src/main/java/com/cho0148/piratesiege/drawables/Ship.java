@@ -5,11 +5,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.cho0148.piratesiege.Game;
+import com.cho0148.piratesiege.R;
 import com.cho0148.piratesiege.Vector2D;
 
 public abstract class Ship extends HittableEntity {
@@ -22,6 +24,7 @@ public abstract class Ship extends HittableEntity {
     private boolean goalPositionShoot;
     protected Vector2D goalPosition;
     protected double movementDegree;
+    private MediaPlayer cannonShotSound;
 
     public enum ShipSpriteVariant{CLEAR, PIRATE, CRUSADER, WARRIOR, HORSE, BONE};
 
@@ -36,6 +39,7 @@ public abstract class Ship extends HittableEntity {
         this.movementDegree = 0;
         this.movementDegreeSinCos = new Vector2D();
         this.goalPositionShoot = false;
+        this.cannonShotSound = MediaPlayer.create(Game.getContext(), R.raw.cannon_shot);
     }
 
     public static Bitmap getSpriteFromVariant(ShipSpriteVariant variant){
@@ -83,6 +87,8 @@ public abstract class Ship extends HittableEntity {
         pos.y += this.movementDegreeSinCos.y * this.sprite.getHeight() / 2;
         DrawableFactory.createCannonball(pos, new Vector2D(this.goalPosition), 20, 5, this.isFriendly());
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
+        if(Game.isPlayingSounds())
+            this.cannonShotSound.start();
     }
 
     public void move() {

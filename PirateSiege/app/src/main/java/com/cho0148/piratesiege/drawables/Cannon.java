@@ -5,11 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.cho0148.piratesiege.Game;
+import com.cho0148.piratesiege.R;
 import com.cho0148.piratesiege.Vector2D;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class Cannon extends MyDrawable {
     private int damage;
     private HittableEntity target;
     private int level;
+    private MediaPlayer cannonShotSound;
 
     public Cannon(Bitmap sprite, Vector2D position, int shotCooldown, int range){
         super(sprite, new Vector2D(position.x - sprite.getWidth()/2, position.y - sprite.getHeight()/2));
@@ -31,6 +34,7 @@ public class Cannon extends MyDrawable {
         this.target = null;
         this.level = 1;
         this.damage = 5;
+        this.cannonShotSound = MediaPlayer.create(Game.getContext(), R.raw.cannon_shot);
     }
 
     public int getCannonLevel(){
@@ -71,6 +75,8 @@ public class Cannon extends MyDrawable {
     public void shoot(){
         DrawableFactory.createCannonball(new Vector2D(this.position), new Vector2D(target.getPosition()), 20, this.damage, true);
         this.nextShotTime = System.currentTimeMillis() + this.shotCooldown;
+        if(Game.isPlayingSounds())
+            this.cannonShotSound.start();
     }
 
     @Override

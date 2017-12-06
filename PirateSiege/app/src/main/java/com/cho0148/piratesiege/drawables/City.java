@@ -27,6 +27,7 @@ import java.util.Vector;
 public class City extends HittableEntity{
     private List<Wall> walls;
     private int money;
+    private int highScore;
     private ProgressBar progressBarMorale;
     private boolean buildingCannon;
     private double healthRegen;
@@ -42,6 +43,7 @@ public class City extends HittableEntity{
         this.buildingCannon = false;
         this.healthRegen = 0.005;
         this.newShipPrice = 50;
+        this.highScore = 0;
         this.loadCity(Game.getContext());
     }
 
@@ -75,10 +77,16 @@ public class City extends HittableEntity{
 
     public void addMoney(int amount){
         this.money += amount;
+        if(amount > 0)
+            this.highScore += amount;
     }
 
     public int getMoney(){
         return this.money;
+    }
+
+    public int getHighScore(){
+        return this.highScore;
     }
 
     public Vector2D getPortPosition(){
@@ -134,6 +142,10 @@ public class City extends HittableEntity{
         synchronized (City.class) {
             for (Wall wall : this.walls) {
                 wall.update();
+            }
+            if(this.health <= 0){
+                Game.endGame();
+
             }
             this.health += this.healthRegen;
             if(this.health > this.maxHealth)

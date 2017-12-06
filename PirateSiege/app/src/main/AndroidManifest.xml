@@ -16,8 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Game"
-            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".Game"
+            android:screenOrientation="landscape" />
+        <activity android:name=".HighScore" />
+        <activity android:name=".Credits" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>
