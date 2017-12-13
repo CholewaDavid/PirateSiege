@@ -85,6 +85,7 @@ public class MainMenu extends AppCompatActivity {
 
         btnStartGame.setTypeface(font);
         btnShowHighscore.setTypeface(font);
+        btnShowSettings.setTypeface(font);
         btnShowCredits.setTypeface(font);
     }
 }

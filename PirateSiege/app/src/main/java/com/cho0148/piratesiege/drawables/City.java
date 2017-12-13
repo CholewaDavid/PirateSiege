@@ -37,7 +37,7 @@ public class City extends HittableEntity{
 
     City(ProgressBar progressBar){
         super(100);
-        this.money = 100;
+        this.money = 200;
         this.walls = new ArrayList<>();
         this.progressBarMorale = progressBar;
         this.buildingCannon = false;

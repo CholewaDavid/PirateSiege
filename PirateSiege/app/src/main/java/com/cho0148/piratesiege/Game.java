@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -30,6 +31,11 @@ import com.cho0148.piratesiege.drawables.EntityUpdater;
 import com.cho0148.piratesiege.drawables.MapGrid;
 import com.cho0148.piratesiege.drawables.Ship;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 
 public final class Game extends AppCompatActivity {
@@ -47,6 +53,7 @@ public final class Game extends AppCompatActivity {
     private static TextView textViewScore;
     private static MediaPlayer mainMusic;
     private static boolean playingSounds;
+    public static final String HIGHSCORE_URL = "http://homel.vsb.cz/~cho0148/tamzHighscore.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,8 +217,41 @@ public final class Game extends AppCompatActivity {
 
     public static void endGame(){
         game.endGamePrivate();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if(preferences.getBoolean("example_switch", false))
+            game.sendHighscore();
         renderView.pause();
         entityUpdater.pause();
+    }
+
+    private void sendHighscore(){
+        final int highscore = city.getHighScore();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        final String nickname = preferences.getString("example_text", "");
+        if(nickname.equals("")) {
+            return;
+        }
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(HIGHSCORE_URL + "?nickname=" + nickname + "&score=" + highscore);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setReadTimeout(10000);
+                    urlConnection.setConnectTimeout(15000);
+                    urlConnection.setDoOutput(true);
+                    urlConnection.setDoInput(true);
+                    urlConnection.getRequestMethod();
+                    urlConnection.getInputStream();
+                    urlConnection.connect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
     private void endGamePrivate(){

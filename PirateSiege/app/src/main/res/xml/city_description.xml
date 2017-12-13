@@ -15,16 +15,27 @@
         <wall column="4" sprite="tile_15"/>
     </row>
     <row>
-        <wall column="4" sprite="tile_61"/>
+        <wall column="1" sprite="tile_77"/>
+        <wall column="2" sprite="tile_16"/>
+        <wall column="3" sprite="tile_16"/>
+        <wall column="4" sprite="tile_94"/>
     </row>
-    <row/>
     <row>
+        <wall column="1" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="1" sprite="tile_15"/>
         <port column="3"/>
         <portgoal column="8"/>
     </row>
-    <row/>
     <row>
-        <wall column="4" sprite="tile_45"/>
+        <wall column="1" sprite="tile_15"/>
+    </row>
+    <row>
+        <wall column="1" sprite="tile_93"/>
+        <wall column="2" sprite="tile_16"/>
+        <wall column="3" sprite="tile_16"/>
+        <wall column="4" sprite="tile_78"/>
     </row>
     <row>
         <wall column="4" sprite="tile_15"/>
