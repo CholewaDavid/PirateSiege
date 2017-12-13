@@ -3,6 +3,8 @@ package com.cho0148.piratesiege;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,9 +41,18 @@ public class HighScore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_score);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if(!wifi.isConnected()) {
+            Toast.makeText(getBaseContext(), "Not connected", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         if(!preferences.getBoolean("example_switch", false)) {
             Toast.makeText(getBaseContext(), "Highscore disabled", Toast.LENGTH_SHORT).show();
             finish();
+            return;
         }
         final StringBuilder highscoreText = new StringBuilder();
         Thread thread = new Thread(new Runnable(){

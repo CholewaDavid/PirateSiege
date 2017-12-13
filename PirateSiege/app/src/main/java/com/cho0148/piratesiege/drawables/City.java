@@ -36,7 +36,7 @@ public class City extends HittableEntity{
     private int newShipPrice;
 
     City(ProgressBar progressBar){
-        super(100);
+        super(50);
         this.money = 200;
         this.walls = new ArrayList<>();
         this.progressBarMorale = progressBar;
@@ -70,7 +70,7 @@ public class City extends HittableEntity{
         if(this.money < this.newShipPrice)
             return;
 
-        PlayerShip newPlayerShip = DrawableFactory.createPlayerShip(Ship.ShipSpriteVariant.CRUSADER, this.getPortPosition(), 3, 200, 3000, 40);
+        PlayerShip newPlayerShip = DrawableFactory.createPlayerShip(Ship.ShipSpriteVariant.CRUSADER, this.getPortPosition(), 3, 400, 3000, 100);
         newPlayerShip.setGoalPosition(this.getPortGoalPosition(), false);
         Game.addMoneyToCity(-this.newShipPrice);
     }

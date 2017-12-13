@@ -25,6 +25,7 @@ public abstract class Ship extends HittableEntity {
     protected Vector2D goalPosition;
     protected double movementDegree;
     private MediaPlayer cannonShotSound;
+    private MediaPlayer deathSound;
 
     public enum ShipSpriteVariant{CLEAR, PIRATE, CRUSADER, WARRIOR, HORSE, BONE};
 
@@ -40,6 +41,7 @@ public abstract class Ship extends HittableEntity {
         this.movementDegreeSinCos = new Vector2D();
         this.goalPositionShoot = false;
         this.cannonShotSound = MediaPlayer.create(Game.getContext(), R.raw.cannon_shot);
+        this.deathSound = MediaPlayer.create(Game.getContext(), R.raw.explosion);
     }
 
     public static Bitmap getSpriteFromVariant(ShipSpriteVariant variant){
@@ -153,5 +155,12 @@ public abstract class Ship extends HittableEntity {
         double bPow = Math.pow(this.sprite.getHeight()/2, 2);
 
         return (firstNumerator/aPow) + (secondNumerator/bPow) <= 1;
+    }
+
+    @Override
+    protected void destroy(){
+        if(Game.isPlayingSounds())
+            this.deathSound.start();
+        super.destroy();
     }
 }

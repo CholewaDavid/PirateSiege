@@ -44,6 +44,13 @@ public final class DrawableFactory {
         return newPirateShip;
     }
 
+    public static TargetingPirateShip createTargetingPirateShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown, int health){
+        TargetingPirateShip newPirateShip = new TargetingPirateShip(variant, position, speed, range, shotCooldown, health);
+        renderView.addDrawable(newPirateShip);
+        entityUpdater.addUpdatable(newPirateShip);
+        return newPirateShip;
+    }
+
     public static PlayerShip createPlayerShip(Ship.ShipSpriteVariant variant, Vector2D position, float speed, float range, int shotCooldown, int health){
         PlayerShip newPlayerShip = new PlayerShip(variant, position, speed, range, shotCooldown, health);
         renderView.addDrawable(newPlayerShip);

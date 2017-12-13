@@ -21,6 +21,10 @@ public class PlayerShipController {
         playerShips.add(ship);
     }
 
+    public static List<PlayerShip> getPlayerShips() {
+        return playerShips;
+    }
+
     public static void removeDestroyed(){
         for(PlayerShip ship : playerShips){
             if(ship.isDestroyed())

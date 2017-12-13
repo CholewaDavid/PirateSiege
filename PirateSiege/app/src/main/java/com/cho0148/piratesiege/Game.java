@@ -10,6 +10,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -225,6 +227,10 @@ public final class Game extends AppCompatActivity {
     }
 
     private void sendHighscore(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if(!wifi.isConnected())
+            return;
         final int highscore = city.getHighScore();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         final String nickname = preferences.getString("example_text", "");

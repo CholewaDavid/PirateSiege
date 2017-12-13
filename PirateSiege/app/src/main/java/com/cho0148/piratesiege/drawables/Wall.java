@@ -51,7 +51,7 @@ public class Wall extends MyDrawable implements IHittable{
         }
 
         Vector2D pos = new Vector2D(this.position.x + this.sprite.getWidth()/2, this.position.y + this.sprite.getHeight()/2);
-        this.cannon = DrawableFactory.createCannon(pos, 2000, 400);
+        this.cannon = DrawableFactory.createCannon(pos, 2000, 600);
     }
 
     public int getCannonPrice(){

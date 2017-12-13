@@ -3,6 +3,7 @@ package com.cho0148.piratesiege;
 import com.cho0148.piratesiege.drawables.DrawableFactory;
 import com.cho0148.piratesiege.drawables.PirateShip;
 import com.cho0148.piratesiege.drawables.Ship;
+import com.cho0148.piratesiege.drawables.TargetingPirateShip;
 
 import java.util.Random;
 
@@ -26,7 +27,7 @@ public class PirateShipSpawner {
         this.shipSpawnPosX = shipSpawnPosX;
         this.arenaSizeY = arenaSizeY;
         this.shipSpeed = 3;
-        this.shipRange = 200;
+        this.shipRange = 400;
         this.shipShotCooldown = 5000;
         this.shipHealth = 15;
         this.random = new Random();
@@ -35,8 +36,14 @@ public class PirateShipSpawner {
     public void update(){
         if(nextShipSpawn < System.currentTimeMillis()){
             Vector2D newShipPos = new Vector2D(shipSpawnPosX, random.nextInt(this.arenaSizeY));
-            PirateShip newShip = DrawableFactory.createPirateShip(Ship.ShipSpriteVariant.PIRATE, newShipPos, this.shipSpeed, this.shipRange, this.shipShotCooldown, this.shipHealth);
-            newShip.setGoalPosition(new Vector2D(Game.getCityPosX(), random.nextInt(this.arenaSizeY)), true);
+            Random r = new Random();
+            if(r.nextInt(10) == 9){
+                TargetingPirateShip newShip = DrawableFactory.createTargetingPirateShip(Ship.ShipSpriteVariant.WARRIOR, newShipPos, this.shipSpeed, this.shipRange, this.shipShotCooldown, this.shipHealth);
+            }
+            else {
+                PirateShip newShip = DrawableFactory.createPirateShip(Ship.ShipSpriteVariant.PIRATE, newShipPos, this.shipSpeed, this.shipRange, this.shipShotCooldown, this.shipHealth);
+                newShip.setGoalPosition(new Vector2D(Game.getCityPosX(), random.nextInt(this.arenaSizeY)), true);
+            }
             if(!(this.lastSpawnCooldown < 500))
                 this.lastSpawnCooldown *= this.cooldownModifier;
             this.nextShipSpawn += this.lastSpawnCooldown;
