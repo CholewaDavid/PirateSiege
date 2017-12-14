@@ -28,7 +28,7 @@ public class PirateShipSpawner {
         this.arenaSizeY = arenaSizeY;
         this.shipSpeed = 3;
         this.shipRange = 400;
-        this.shipShotCooldown = 5000;
+        this.shipShotCooldown = 4000;
         this.shipHealth = 15;
         this.random = new Random();
     }

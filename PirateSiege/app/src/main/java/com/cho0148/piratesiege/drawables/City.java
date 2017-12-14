@@ -70,7 +70,7 @@ public class City extends HittableEntity{
         if(this.money < this.newShipPrice)
             return;
 
-        PlayerShip newPlayerShip = DrawableFactory.createPlayerShip(Ship.ShipSpriteVariant.CRUSADER, this.getPortPosition(), 3, 400, 3000, 100);
+        PlayerShip newPlayerShip = DrawableFactory.createPlayerShip(Ship.ShipSpriteVariant.CRUSADER, this.getPortPosition(), 2, 400, 5000, 1000);
         newPlayerShip.setGoalPosition(this.getPortGoalPosition(), false);
         Game.addMoneyToCity(-this.newShipPrice);
     }
